@@ -1,6 +1,14 @@
 h1 LEVEL
-p=level_data.level
-p exp 
-p=level_data.exp
-p next
-p=level_data.needed
+table
+	tr
+		td(rowspan=2)
+			p.plvl=level_data.level
+		td.bottomcell
+			p.plvl_headings EXP
+		td.bottomcell
+			p.plvl_mins=level_data.exp
+	tr
+		td.topcell
+			p.plvl_headings NEXT
+		td.topcell
+			p.plvl_mins=level_data.needed

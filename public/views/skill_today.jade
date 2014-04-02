@@ -1,3 +1,15 @@
-h4=skill.display_name
-// CURSPOT!
-//p=skill.exp
+// {
+//   "code_name": string,
+//   "display_name": string,
+//   "exp_today": int,
+//   "goal": int
+//   "need_today": int // goal - exp_today or 0
+// },
+h5=skill.display_name
+p=skill.exp_today
+if skill.need_today > 0
+	p=skill.need_today
+	| needed
+else
+	p goal was
+	=skill.goal

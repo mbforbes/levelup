@@ -6,7 +6,8 @@
     "express": "*",
     "jade": "*",
     "merge": "*",
-    "underscore": "*"
+    "underscore": "*",
+    "request": "*"
   },  
   "description": "Track minutes, gain experience for skills and levels, fight bosses, get rewards.",
   "main": "web.js",

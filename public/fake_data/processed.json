@@ -66,23 +66,23 @@
 	"past_progress": [
 		{
 			"code_name": "anki_cs",
-			"minutes": 160
+			"minutes": 2600
 		},
 		{
 			"code_name": "tr",
-			"minutes": 1000
+			"minutes": 500
 		},
 		{
 			"code_name": "nr",
-			"minutes": 50
+			"minutes": 50000
 		},
 		{
 			"code_name": "prj",
-			"minutes": 400
+			"minutes": 4000
 		},
 		{
 			"code_name": "ex",
-			"minutes": 300
+			"minutes": 10000
 		}		
 	],
 	"today_progress": [
