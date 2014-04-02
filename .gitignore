@@ -1,5 +1,5 @@
 node_modules/
 
-# These files should be ignored as they should contain individual settings.
-abilities_url
-exp_url
+# Don't ignore these in deployment (heroku).
+#abilities_url
+#exp_url
