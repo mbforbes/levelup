@@ -17,7 +17,7 @@ You need two files, which are both one-liner filess with URLs to an **old** Goog
 - (eventually) faster loading (e.g. period pinging of google apps)
 
 ## Related work
-Having done my brainstorming, background research on addicting games, needs analysis, level math and balancing, mockups, and most of the backend / frontend coding, I discovered [HabitRPG](https://habitrpg.com/). 
+After having done my brainstorming, background research on why games are addicting, needs analysis, level math and balancing, mockups, and most of the backend / frontend coding, I then discovered [HabitRPG](https://habitrpg.com/). 
 
 This will be a simple, less-featured version of HabitRPG, which only tracks habits (and not TODOs and the rest). It also won't have pretend rewards.
 
