@@ -5,11 +5,23 @@
 //   "goal": int
 //   "need_today": int // goal - exp_today or 0
 // },
-h5=skill.display_name
-p=skill.exp_today
-if skill.need_today > 0
-	p=skill.need_today
-	| needed
-else
-	p goal was
-	=skill.goal
+table.todaytable
+	tr
+		td
+
+			h5=skill.display_name
+		td(width=40)
+			p.exptoday=skill.exp_today
+	tr
+		td(colspan=2)
+			p big progress bar here
+	tr
+		td(colspan=2).needorgoal
+			if skill.need_today > 0
+				p.need
+					=skill.need_today
+					| &nbsp;needed
+			else
+				p.goal
+					| goal was&nbsp;
+					=skill.goal
