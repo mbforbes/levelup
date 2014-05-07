@@ -1,11 +1,12 @@
 /* Overall styling... we need to keep away from the yellow bar on the left. */
 body {
 	background-color: #1F497D;
-	margin-left: 70px;
+	margin-left: 90px;
 }
 
 /* Fonts that are used frequently. */
 
+/* LEVEL, SKILLS */
 h1 {
 	font-family: "Avenir";
 	color: #F8B145;
@@ -13,9 +14,12 @@ h1 {
 	line-height: 80pt;
 	margin-top: 0px;
 	margin-bottom: 0px;
+	margin-left: -20px;
 }
 
+/* COMPUTER SCIENCE, LANGUAGE AND KNOWLEDGE, .... */
 h2, h3, .plvl_headings {
+	clear: both;
 	font-family: "Avenir";
 	font-weight: bold;
 	color: #1F497D;
@@ -24,22 +28,81 @@ h2, h3, .plvl_headings {
 	margin-bottom: 0px;
 }
 
+/* OVERALL, TODAY */
 h3 {
 	font-size: 26pt;
 	font-style: italic;
 }
 
+/* Novice, Apprentice, Journeyman, Expert, Master */
 h4 {
 	font-family: "Avenir";
 	font-size: 26pt;
 	color: white;
+	margin-top: 0px;
+	margin-bottom: 0px;
+}
+
+/* Anki: CS, Tech Reading, Projects, ... */
+h5 {
+	font-family: "Avenir";
+	font-weight: bold;
+	font-size: 18pt;
+	line-height: 18pt;
+	color: #1F497D;
+	font-style: italic;
+	margin-top: 0px;
+	margin-bottom: 0px;
+
 }
 
 /* Specialist fonts */
 
-.plvl, .plvl_mins {
+/* Dark blue, italic (frequently used) */
+.aexptxt, .anexttxt, .alvltxt, .alvltxt2 {
+	font-family: "Avenir";
+	font-weight: bold;
+	color: #1F497D;
+	font-style: italic;
+}
+
+.bar {
+	margin-top: 0px;
+	margin-bottom: 0px;
+}
+
+.plvltable {
+	margin-top: -40px;
+}
+
+.alvltable {
+	/*margin-top: -40px;*/
+}
+
+/* Mono font, white*/
+.plvl, .plvl_mins, .alvl, .aexp, .anext, .exptoday, .need {
 	font-family: "Cutive Mono";
 	color: white;
+}
+
+.needorgoal {
+	font-style: italic;
+	text-align: right;
+}
+
+.skillstoday, .overall {
+	float: left;
+}
+
+.exptoday {
+	text-align: right;
+}
+
+.alvl {
+	font-size: 40pt;
+	line-height: 10pt;
+	margin-top: 0px;
+	margin-bottom: 0px;
 }
 
 .plvl {
@@ -60,8 +123,23 @@ h4 {
 	font-size: 36pt;
 	line-height: 36pt;
 	margin-top: 0px;
-	margin-bottom: 0px;	
+	margin-bottom: 0px;
 	text-align: right;
+}
+
+.todaytable {
+	float: left;
+	margin-right: 60px;
+}
+
+.todaytable p {
+	margin-top: 0px;
+	margin-bottom: 0px;
+}
+
+/* Ability level */
+.alvltxt2 {
+	margin-top: -25px;
 }
 
 /* For alignment */
