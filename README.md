@@ -1,23 +1,26 @@
 # levelup
-Track minutes, gain experience for skills and levels, fight bosses, get rewards.
+Track minutes, gain experience for skills and levels, fight bosses, get rewards. [Live alpha](http://rhubarb-crisp-2752.herokuapp.com/).
 
 ![preview of the levelup UI](levelup_ui.png)
 _A mockup of the UI I made (in Word!)_
 
+
+
 ## Setup
 You need two files, which are both one-liner filess with URLs to an **old** Google Docs Spreadsheet with certain data format.
-- `exp_url` :   exp format (to be specified)
-- `abilities_url` : abilities format (to be specified)
+- `exp_url` :   exp format (specified in web.js)
+- `abilities_url` : abilities format (specified in web.js)
 
 ## TODO
 - favicon.ico
 - rest of the formatting
+- specify doc formats here
 - (if wanted eventually) bosses
 - (if wanted eventually) rewards
 - (eventually) faster loading (e.g. period pinging of google apps)
 
 ## Related work
-After having done my brainstorming, background research on why games are addicting, needs analysis, level math and balancing, mockups, and most of the backend / frontend coding, I then discovered [HabitRPG](https://habitrpg.com/). 
+After having done my brainstorming, background research on why games are addicting, needs analysis, level math and balancing, mockups, and most of the backend / frontend coding, I then discovered [HabitRPG](https://habitrpg.com/).
 
 This will be a simple, less-featured version of HabitRPG, which only tracks habits (and not TODOs and the rest). It also won't have pretend rewards.
 
