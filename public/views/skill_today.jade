@@ -8,13 +8,16 @@
 table.todaytable
 	tr
 		td
-
 			h5=skill.display_name
 		td(width=40)
 			p.exptoday=skill.exp_today
 	tr
-		td(colspan=2)
-			p big progress bar here
+		td(colspan=2).bar
+			if skill.need_today > 0
+				progress.skill(max=skill.goal, value=skill.exp_today)
+			else
+				progress.skill.pdone(max=skill.goal, value=skill.exp_today)
+
 	tr
 		td(colspan=2).needorgoal
 			if skill.need_today > 0
