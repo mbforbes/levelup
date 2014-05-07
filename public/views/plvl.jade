@@ -12,3 +12,6 @@ table.plvltable
 			p.plvl_headings NEXT
 		td.topcell
 			p.plvl_mins=level_data.needed
+	tr
+		td(colspan=3)
+			progress.pbarplvl(max=(level_data.progress + level_data.needed), value=level_data.progress)

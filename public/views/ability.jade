@@ -1,21 +1,39 @@
 h2=ability.display_name
 if ability.level < 25
-	p.bar === --- --- --- ---
+	.ablock
+	.ublock
+	.ublock
+	.ublock
+	.ublock
 	h4 Novice
 else if ability.level < 50
-	p.bar --- === --- --- ---
+	.ublock
+	.ablock
+	.ublock
+	.ublock
+	.ublock
 	h4 Apprentice
 else if ability.level < 75
-	p --- --- === --- ---
+	.ublock
+	.ublock
+	.ablock
+	.ublock
+	.ublock
 	h4 Journeyman
 else if ability.level < 100
-	p --- --- --- === ---
+	.ublock
+	.ublock
+	.ublock
+	.ablock
+	.ublock
 	h4 Expert
 else
-	p --- --- --- --- ===
+	.ublock
+	.ublock
+	.ublock
+	.ublock
+	.ablock
 	h4 Master
-
-
 .overall
 	h3 OVERALL
 	table.alvltable
@@ -25,16 +43,16 @@ else
 			td(width=80, rowspan=2)
 				p.alvltxt ability
 				p.alvltxt2 level
-			td(width=150)
+			td.expcell.bottomcell(width=150)
 				b.aexptxt exp &nbsp;
 				b.aexp=ability.exp
 		tr
-			td
+			td.expcell.topcell
 				b.anexttxt next &nbsp;
 				b.anext=ability.needed
 		tr
 			td(colspan=3)
-				p big row thing here
+				progress(max=ability.exp, value=(ability.exp - ability.needed))
 
 .skillstoday
 	h3 SKILLS TODAY

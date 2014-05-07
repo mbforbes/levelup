@@ -14,10 +14,13 @@ h1 {
 	line-height: 80pt;
 	margin-top: 0px;
 	margin-bottom: 0px;
-	margin-left: -20px;
+	margin-left: -30px;
 }
 
-/* COMPUTER SCIENCE, LANGUAGE AND KNOWLEDGE, .... */
+table + h1 {
+	margin-top: 100px;
+}
+
 h2, h3, .plvl_headings {
 	clear: both;
 	font-family: "Avenir";
@@ -28,6 +31,15 @@ h2, h3, .plvl_headings {
 	margin-bottom: 0px;
 }
 
+/* COMPUTER SCIENCE, LANGUAGE AND KNOWLEDGE, .... */
+h2 {
+	padding-top: 60px;
+}
+
+/* First one you don't want to have a big padding*/
+h1 + h2 {
+	padding-top: 0px;
+}
 /* OVERALL, TODAY */
 h3 {
 	font-size: 26pt;
@@ -36,6 +48,7 @@ h3 {
 
 /* Novice, Apprentice, Journeyman, Expert, Master */
 h4 {
+	clear: both;
 	font-family: "Avenir";
 	font-size: 26pt;
 	color: white;
@@ -59,7 +72,7 @@ h5 {
 /* Specialist fonts */
 
 /* Dark blue, italic (frequently used) */
-.aexptxt, .anexttxt, .alvltxt, .alvltxt2 {
+.aexptxt, .anexttxt, .alvltxt, .alvltxt2, .goal {
 	font-family: "Avenir";
 	font-weight: bold;
 	color: #1F497D;
@@ -72,7 +85,7 @@ h5 {
 }
 
 .plvltable {
-	margin-top: -40px;
+	margin-top: 0px;
 }
 
 .alvltable {
@@ -85,6 +98,10 @@ h5 {
 	color: white;
 }
 
+.expcell {
+	text-align: right;
+}
+
 .needorgoal {
 	font-style: italic;
 	text-align: right;
@@ -92,6 +109,10 @@ h5 {
 
 .skillstoday, .overall {
 	float: left;
+}
+
+.overall {
+	margin-right: 100px;
 }
 
 .exptoday {
@@ -107,7 +128,7 @@ h5 {
 
 .plvl {
 	font-size: 140pt;
-	line-height: 140pt;
+	line-height: 90pt;
 	margin-top: 0px;
 	margin-bottom: 0px;
 	margin-right: 10pt;
@@ -129,12 +150,19 @@ h5 {
 
 .todaytable {
 	float: left;
-	margin-right: 60px;
+	margin-right: 40px;
 }
 
 .todaytable p {
 	margin-top: 0px;
 	margin-bottom: 0px;
+}
+
+/* Not working... */
+.todaytable td.bar {
+	max-height: 7px;
+	padding: 0px;
+	margin: 0px;
 }
 
 /* Ability level */
@@ -151,6 +179,80 @@ h5 {
 	vertical-align: bottom;
 }
 
+progress {
+	width: 100%;
+}
+
+progress.skill {
+	width: 250px;
+}
+
+/* indeterminate (full) */
+progress:not([value]) {
+	/* Don't think we need anything here...*/
+}
+
+/* partially-full */
+progress[value] {
+	height: 7px;
+	/* Reset the default appearance */
+	-webkit-appearance: none;
+	appearance: none;
+}
+
+/* Container*/
+progress[value]::-webkit-progress-bar {
+	/*border-radius: 2px;*/
+	box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25) inset;
+	background-color: #1F497D;
+}
+
+@-webkit-keyframes animate-stripes {
+   100% { background-position: -100px 0px; }
+}
+
+@keyframes animate-stripes {
+   100% { background-position: -100px 0px; }
+}
+
+progress[value]::-webkit-progress-value {
+	background-color: #fff;
+}
+
+progress.pbarplvl[value]::-webkit-progress-value {
+	background-color: #F8B145;
+}
+
+progress.pdone[value]::-webkit-progress-value {
+/*	background-image:
+		-webkit-linear-gradient(-45deg,
+	                           transparent 33%, rgba(0, 0, 0, .1) 33%,
+	                           rgba(0,0, 0, .1) 66%, transparent 66%),
+		-webkit-linear-gradient(top,
+	                           rgba(255, 255, 255, .25),
+	                           rgba(0, 0, 0, .25));
+*/	background-color: #F8B145;
+    background-size: 35px 7px, 100% 100%, 100% 100%;
+
+    /* This would animate. */
+	/*-webkit-animation: animate-stripes 5s linear infinite;*/
+    /*animation: animate-stripes 5s linear infinite;*/
+}
+
+.block, .ublock, .ablock {
+	width: 60px;
+	height: 10px;
+	float: left;
+	margin-right: 20px;
+}
+
+.ublock {
+	background: #1F497D;
+}
+
+.ablock {
+	background: #F8B145;
+}
 
 /* Background objects for color */
 
