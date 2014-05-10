@@ -1,33 +1,52 @@
 // Module dependencies
+// ----------------------------------------------------------------------------
+
 var request = require('request');
 var express = require("express");
 var fs = require("fs");
 var merge = require('merge');
 var _ = require('underscore');
 
-// settings and stuff
+
+// Settings
+// ----------------------------------------------------------------------------
+
 var exp_url = String(fs.readFileSync('exp_url'));
 var abilities_url = String(fs.readFileSync('abilities_url'));
 var jade_options = {pretty: true};
 var pub_dir = __dirname + '/public/';
-var data_filename = pub_dir + '/fake_data/' + 'processed.json';
+var port = process.env.PORT || 5000;
 
-// create and configure app
+
+// Create and configure app
+// ----------------------------------------------------------------------------
+
 var app = express();
 app.use(express.logger());
 app.use(express.static(pub_dir));
 
-// my functions
 
-// smart parse int... if it's just empty, return 0
+// Util functions
+// ----------------------------------------------------------------------------
+
+// Smart parse int... if it's just empty, return 0.
+//
+// arguments: string
+// returns: int
 var stoi_zero = function(str) {
-	if (str == '') {
+	if (str === '') {
 		return 0;
 	} else {
 		return parseInt(str);
 	}
-}
+};
 
+
+// Data processing functions
+// ----------------------------------------------------------------------------
+
+// arguments: TODO(max): Argument format.
+//
 // returns {
 //   "level": int,
 //   "exp": int,
@@ -36,36 +55,39 @@ var stoi_zero = function(str) {
 // }
 var get_level_data = function(data) {
 	// debug
-	console.log("Getting level data...");
-	console.log(data);
+	// console.log("Getting level data...");
+	// console.log(data);
 
 	// calculate total exp
-	var exp = 0;
-	for (var i = 0; i < data.past_progress.length; i++) {
+	var exp = 0, i = 0;
+	for (i = 0; i < data.past_progress.length; i++) {
 		exp += data.past_progress[i].minutes;
 	}
-	for (var i = 0; i < data.today_progress.length; i++) {
+	for (i = 0; i < data.today_progress.length; i++) {
 		exp += data.today_progress[i].minutes;
 	}
 
 	// debug
-	console.log('\t- got total exp (' + exp + ')');
+	// console.log('\t- got total exp (' + exp + ')');
 
-	// given our exp rules are:
+	// Given our exp rules are:
 	// - baseline: 180 exp needed every level
 	// - modifier: 60i exp needed to go from lvl i to i + 1
+	//
 	// here's the equation for:
 	// - y: player level
 	// - x: exp needed to reach that level
 	// - y = (30x + 180)(x - 1)
-	// given a quadratic equation and y, how do you solve for x?
-	// I don't know, so I'm going to brute force it
-	var lvl = 2 // we start at lvl 1 with exp 0, so check 2 first
-	var exp_needed_prev = 0	
-	var exp_leftover = 0
+	//
+	// Given a quadratic equation and y, how do you solve for x? Just subtract
+	// y. However, doing an iterative check is OK as we'll never do more than
+	// 200 iterations, and this will support boss checking.
+	var lvl = 2; // We start at lvl 1 with exp 0, so check 2 first.
+	var exp_needed_prev = 0;
+	var exp_leftover = 0;
 	var needed = 0;
 	while (true) {
-		var exp_needed = get_exp_needed_for_plvl(lvl)
+		var exp_needed = get_exp_needed_for_plvl(lvl);
 		if (exp < exp_needed) {
 			lvl -= 1;
 			exp_needed_prev = get_exp_needed_for_plvl(lvl);
@@ -78,17 +100,19 @@ var get_level_data = function(data) {
 	}
 
 	// debug
-	console.log('\t- got player level (' + lvl + ')');
+	// console.log('\t- got player level (' + lvl + ')');
 
 	return {
 		"level": lvl,
 		"exp": exp,
 		"progress": exp_leftover,
 		"needed": needed
-	}
+	};
 };
 
 
+// arguments: TODO(max): Argument format.
+//
 // returns [
 //  {
 //    "code_name": string,
@@ -112,7 +136,7 @@ var get_level_data = function(data) {
 // ]
 var get_ability_data = function(data) {
 	// debug
-	console.log("Getting ability data...");
+	// console.log("Getting ability data...");
 
 	var ret = [];
 
@@ -122,7 +146,7 @@ var get_ability_data = function(data) {
 		var info = {};
 
 		// debug
-		console.log('\t- processing ability ' + ability.display_name);
+		// console.log('\t- processing ability ' + ability.display_name);
 
 		// extract basic info
 		info.code_name = ability.code_name;
@@ -135,7 +159,7 @@ var get_ability_data = function(data) {
 		var exp = get_total_exp_for_skills(data, skills);
 
 		// debug
-		console.log('\t\t- got total ability exp (' + exp + ')');
+		// console.log('\t\t- got total ability exp (' + exp + ')');
 
 		// do the dumb for loop to solve the quadratic for y val
 		// a.k.a. caclulate ability level, progress, remaining
@@ -180,13 +204,15 @@ var get_ability_data = function(data) {
 
 			// get skill data for today
 			info.skills_today.push(get_skill_today_data(data, skills[j]));
-		}		
+		}
 
 		ret.push(info);
 	}
 	return ret;
 };
 
+// arguments: TODO(max): Argument format.
+//
 // Returns a list of all bosses that:
 //
 // TODO: CURSPOT augment boss entries with associated ability
@@ -213,14 +239,14 @@ var get_boss_list = function(data) {
 		}
 	}
 	return boss_list;
-}
+};
 
 // Takes a list of bosses, returns the lowest level.
 // returns int, 9999 if boss_list empty
-// TODO replace with _ call
+// TODO(max): replace with _ call.
 var get_lowest_boss_level = function(boss_list) {
 	// TODO figure out what max int is
-	var min = 9999
+	var min = 9999;
 	for (var i = 0; i < boss_list.length; i++) {
 		var boss = boss_list[i];
 		if (boss.level < min) {
@@ -228,18 +254,18 @@ var get_lowest_boss_level = function(boss_list) {
 		}
 	}
 	return min;
-}
+};
 
-// Takes the ability and returns bosses - bosses_battled. 
+// Takes the ability and returns bosses - bosses_battled.
 // returns [
 //   { level: int, desc: string},
 //   { level: int, desc: string},
 //   ...
 // ]
-// TODO: repalce with some _ call
+// TODO(max): replace with some _ call.
 var get_bosses_todo = function(ability) {
 	var bosses_todo = [];
-	if (ability.bosses == undefined) {
+	if (ability.bosses === undefined) {
 		return bosses_todo;
 	}
 	for (var i = 0; i < ability.bosses.length; i++) {
@@ -258,7 +284,7 @@ var get_bosses_todo = function(ability) {
 		}
 	}
 	return bosses_todo;
-}
+};
 
 // Gets the data for a skill for display in "today" HUD.
 //
@@ -272,10 +298,10 @@ var get_bosses_todo = function(ability) {
 var get_skill_today_data = function(data, skill) {
 	var ret = {};
 	ret.code_name = skill.code_name;
-	ret.display_name = skill.display_name;	
+	ret.display_name = skill.display_name;
 
-	// get skill minutes today
-	// note: really need to use _ here...
+	// Get skill minutes today.
+	// TOOD(max): really need to use _ here...
 	for (var i = 0; i < data.today_progress.length; i++) {
 		if (data.today_progress[i].code_name == skill.code_name) {
 			ret.exp_today = data.today_progress[i].minutes;
@@ -283,20 +309,21 @@ var get_skill_today_data = function(data, skill) {
 		}
 	}
 
-	// save / calculate other stats
+	// Save / calculate other stats.
 	ret.goal = skill.daily_goal;
 	var remaining = ret.goal - ret.exp_today;
 	ret.need_today = remaining > 0 ? remaining : 0;
 
 	// debug
-	console.log('\t\t\t- goal (' + ret.goal + '), needed (' + ret.need_today + ')');
+	// console.log('\t\t\t- goal (' + ret.goal + '), needed (' +
+		// ret.need_today + ')');
 
 	return ret;
 };
 
 // Given a list of skill code names (skills), sums all past and today
 // exp for all provided skills, and returns that number.
-// 
+//
 // returns int
 var get_total_exp_for_skills = function(data, skills) {
 	var total = 0;
@@ -308,9 +335,8 @@ var get_total_exp_for_skills = function(data, skills) {
 	return total;
 };
 
-// Given a skill and an array that contains progress (either 
-// data.past_progress or data.today_progress), returns the skill's
-// minutes in that array.
+// Given a skill and an array that contains progress (either data.past_progress
+// or data.today_progress), returns the skill's minutes in that array.
 //
 // returns int
 var get_skill_minutes = function(skill_code_name, progress_arr) {
@@ -325,7 +351,8 @@ var get_skill_minutes = function(skill_code_name, progress_arr) {
 	return 0;
 };
 
-// gets the skills associated with a particularity ability
+// Gets the skills associated with a particularity ability.
+//
 // returns [
 //   {...}, // associated skill 1
 //   {...}, // associated skill 2
@@ -341,19 +368,23 @@ var get_skills_for_ability = function(data, a_code_name) {
 	return assoc_skills;
 };
 
-// Gets total exp needed to get to plvl
-// 180(y-1) + 60(y-1)(y)/2 = (30y + 180)(y-1)
+// Gets total exp needed to get to plvl:
+//     180(y-1) + 60(y-1)(y)/2 = (30y + 180)(y-1)
+//
+// returns int
 var get_exp_needed_for_plvl = function(plvl) {
 	return (30 * plvl + 180) * (plvl - 1);
 };
 
-// Gets total exp needed to get to alvl
-// 30(y-1)(y)/2 = 15(y-1)(y)
+// Gets total exp needed to get to alvl:
+//     30(y-1)(y)/2 = 15(y-1)(y)
+//
+// returns int
 var get_exp_needed_for_alvl = function(alvl) {
 	return 15 * alvl * (alvl - 1);
 };
 
-// parsing exp csv. current format is 
+// parsing exp csv. current format is
 //
 // header1
 // header2
@@ -361,23 +392,23 @@ var get_exp_needed_for_alvl = function(alvl) {
 // line
 // line
 // ...
-// 
+//
 // where header1 is
-// 
+//
 //     skill name,<display name of skill 1>,<display name of skill 2>,...
 //
 // and header2 is
 //
 //     skill short name,<code name of skill 1>,<code name of skill 2>,...
-// 
+//
 // and header3 is
 //
 //     ability affiliation,<code name of ability for skil 1>,...
 //
 // and line is either
 //
-//     goal,<int minutes goal for skill 1>,<int minutes goal for skill 2>,... 
-// 
+//     goal,<int minutes goal for skill 1>,<int minutes goal for skill 2>,...
+//
 // or
 //
 //     <mm/dd/yyyy>,<entry for skill 1>,<entry for skill 2>,...
@@ -387,10 +418,10 @@ var get_exp_needed_for_alvl = function(alvl) {
 //
 // We parse like a state machine by keeping track of the last goal and adding
 // experience as earned throughout.
-// 
-// returns object with the following format:
-// 
-// todo(max) returned object format
+//
+// Returns object with the following format:
+//
+// TODO(max): Returned object format.
 //
 var parse_exp_csv = function(csv_txt) {
 	var lines = csv_txt.split('\n');
@@ -400,53 +431,55 @@ var parse_exp_csv = function(csv_txt) {
 		return;
 	}
 
-	// extract header info (skill display names, code names, and ability affil)
+	// Extract header info (skill display names, code names, and ability
+	// affiliation).
 	var skill_displays = [];
-	var skill_shorts = [];	
+	var skill_shorts = [];
 	var skill_affils = [];
 	var header1 = lines[0].split(',');
 	var header2 = lines[1].split(',');
 	var header3 = lines[2].split(',');
-	// skip first piece, as it contains the description
-	for (var i = 1; i < header1.length; i++) {
-		skill_displays.push(header1[i])
-		skill_shorts.push(header2[i])
-		skill_affils.push(header3[i])
+	var i = 0, j = 0;
+	// Skip first piece, as it contains the description.
+	for (i = 1; i < header1.length; i++) {
+		skill_displays.push(header1[i]);
+		skill_shorts.push(header2[i]);
+		skill_affils.push(header3[i]);
 	}
 
-	// make default goal, past_progress, and today_progress arrays (0s) based on
-	// no. skills
+	// Make default goal, past_progress, and today_progress arrays (0s) based
+	// on no. skills.
 	var cur_goal = [];
 	var past_progress = [];
 	var today_progress = [];
-	for (var i = 0; i < skill_displays.length; i++) {
+	for (i = 0; i < skill_displays.length; i++) {
 		cur_goal.push(0);
 		past_progress.push(0);
 		today_progress.push(0);
 	}
 
-	// get today
+	// Get today.
 	var d = new Date();
 	var today_month = d.getMonth() + 1; // 0-based... wow Javascript
-	// note that i'm calling it day, but in javascript getDay() returns the day
-	// of the week, whereas getDate() returns the day of the month
+	// Note that I'm calling it day, but in Javascript getDay() returns the day
+	// of the week, whereas getDate() returns the day of the month.
 	var today_day = d.getDate();
 	var today_year = d.getFullYear();
 
-	// extract goals and entry lines
-	// skip first three lines; those were the headers
-	for (var i = 3; i < lines.length; i++) {
+	// Extract goals and entry lines.
+	// Skip first three lines; those were the headers.
+	for (i = 3; i < lines.length; i++) {
 		var line = lines[i].split(',');
 		if (line[0] == 'goal') {
-			// process as goal line; update cur_goal
-			// skip first piece, as it contains 'goal'
-			for (var j = 1; j < line.length; j++) {
+			// Process as goal line; update cur_goal.
+			// Skip first piece, as it contains 'goal'.
+			for (j = 1; j < line.length; j++) {
 				cur_goal[j - 1] = stoi_zero(line[j]);
 			}
 		} else {
-			// process as entry line
-			// if the date is today's date, we just add entries to
-			// today_progress. date is mm/dd/yyyy
+			// Process as entry line.
+			// If the date is today's date, we just add entries to
+			// today_progress. Date is mm/dd/yyyy
 			var date = line[0].split('/');
 			var cur_month = stoi_zero(date[0]);
 			var cur_day = stoi_zero(date[1]);
@@ -454,37 +487,37 @@ var parse_exp_csv = function(csv_txt) {
 			if (cur_month == today_month && cur_day == today_day && cur_year ==
 				today_year) {
 				// skip first piece, as it contains today's date
-				for (var j = 1; j < line.length; j++) {
+				for (j = 1; j < line.length; j++) {
 					today_progress[j - 1] = stoi_zero(line[j]);
 				}
 			} else {
-				// it's a day in the past; just add it as normal
-				// first, check to see if all experience above goal
+				// It's a day in the past; just add it as normal.
+				// First, check to see if all experience above goal.
 				var above_goal = true;
-				// skip first piece, as it contains the date
-				for (var j = 1; j < line.length; j++) {
+				// Skip first piece, as it contains the date.
+				for (j = 1; j < line.length; j++) {
 					if (stoi_zero(line[j]) < cur_goal[j-1]) {
 						above_goal = false;
 						break;
 					}
 				}
-				// only if we're above the goal do we actually add the exp to the
-				// totals
+				// Only if we're above the goal do we actually add the exp to
+				// the totals.
 				if (above_goal) {
-					// skip first piece, as still contains date
-					for (var j = 1; j < line.length; j++) {
+					// Skip first piece, as still contains date.
+					for (j = 1; j < line.length; j++) {
 						past_progress[j - 1] += stoi_zero(line[j]);
 					}
 				}
 			}
 		}
 	}
-	// combine into return object
+	// Combine into return object.
 	var retobj = {};
 	retobj.skills = [];
 	retobj.past_progress = [];
 	retobj.today_progress = [];
-	for (var i = 0; i < cur_goal.length; i++) {
+	for (i = 0; i < cur_goal.length; i++) {
 		retobj.skills.push({
 			"code_name": skill_shorts[i],
 			"display_name": skill_displays[i],
@@ -510,80 +543,89 @@ var parse_exp_csv = function(csv_txt) {
 	return retobj;
 };
 
-// parsing abilities csv. current format is 
+// Parsing abilities csv. current format is
 //
 // line1
 // line2
-// 
+//
 // where line1 is
-// 
+//
 //     display name,<display name of ability 1>,<display name of ability 2>,...
 //
 // and line2 is
 //
 //     code name,<code name of ability 1>,<code name of ability 2>,...
-// 
-// returns object with the following format:
-// 
-// todo(max) returned object format
+//
+// Returns object with the following format:
+//
+// TODO(max): Returned object format.
 var parse_abilities_csv = function(csv_txt) {
 	var lines = csv_txt.split('\n');
-
-	// we need exactly 2 lines for the 2 headers
+	// We need exactly 2 lines for the 2 headers.
 	if (lines.length != 2) {
 		console.log("Error: abilities CSV incorrect length. Need 2, length: " +
 			lines.length);
 		return;
 	}
-
-	// extract info (ability display names, code names)
+	// Extract info (ability display names, code names)
 	var retarr = [];
 	var display_names = lines[0].split(',');
 	var code_names = lines[1].split(',');
-	// skip first piece, as it contains the description
+	// Skip first piece, as it contains the description
 	for (var i = 1; i < display_names.length; i++) {
 		retarr.push({
 			"code_name": code_names[i],
 			"display_name": display_names[i]
 		});
 	}
-
-	//console.log(retarr);
 	return retarr;
 };
 
-// starts the call chain
+
+// Data loading / callback functions.
+// ----------------------------------------------------------------------------
+
+// Starts the call chain.
+//     Called from: app.get
+//     Calls: load_exp
 var load_data = function(resp) {
 	var data = {};
 	load_exp(data, resp);
-}
+};
 
-// loads exp then calls load_abilities
+// Loads exp
+//     Called from: load_data
+//     Calls: load_abilities
 var load_exp = function(data, resp) {
 	request(exp_url, function (error, response, body) {
 		if (!error && response.statusCode == 200) {
 			data = merge(data, parse_exp_csv(body));
 			load_abilities(data, resp);
 		} else {
-			console.log("There was a problem getting the exp data." + 
+			console.log("There was a problem getting the exp data." +
 				" Error: " + error +", response: " + response + ".");
 		}
 	});
 };
 
-// called by load_exp
+// Loads abilities
+//     Called from: load_exp
+//     Calls: process_request
 var load_abilities = function(data, resp) {
 	request(abilities_url, function (error, response, body) {
 		if (!error && response.statusCode == 200) {
 			data.abilities = parse_abilities_csv(body);
-			process_request(data, resp)
+			process_request(data, resp);
 		} else {
-			console.log("There was a problem getting the abilities data." + 
+			console.log("There was a problem getting the abilities data." +
 				" Error: " + error +", response: " + response + ".");
 		}
 	});
 };
 
+// Combines final objects and renders response.
+//     Called from: load_abilities
+//     Calls: (none)
 var process_request = function(data, response) {
 	var level_data = get_level_data(data);
 	var ability_data = get_ability_data(data);
@@ -592,30 +634,23 @@ var process_request = function(data, response) {
 		"level_data": level_data,
 		"ability_data": ability_data,
 		"boss_list": boss_list
-	}
+	};
 	response.render(pub_dir + 'index.jade', merge(jade_options, locals));
-}
+};
 
-// routing
+
+// Routing
+// ----------------------------------------------------------------------------
+
 app.get('/', function(request, response) {
-	// we load the data per request
+	// We load the data per request, and send response after it's done.
 	load_data(response);
-
-
-	//var data = JSON.parse(fs.readFileSync(data_filename));
-	// var level_data = get_level_data(data);
-	// var ability_data = get_ability_data(data);
-	// var boss_list = get_boss_list(data);
-	// var locals = {
-	// 	"level_data": level_data,
-	// 	"ability_data": ability_data,
-	// 	"boss_list": boss_list
-	// }
-	// response.render(pub_dir + 'index.jade', merge(jade_options, locals));
 });
 
-// talk to the outside world
-var port = process.env.PORT || 5000;
+
+// Execution starts here
+// ----------------------------------------------------------------------------
+
 app.listen(port, function() {
   console.log("Listening on " + port);
 });
