@@ -195,12 +195,12 @@ var get_ability_data = function(data) {
 		ability.level = alvl;
 
 		// debug
-		console.log('\t\t- got ability level (' + alvl + ')');
+		// console.log('\t\t- got ability level (' + alvl + ')');
 
 		// get "today" progress for all skills
 		for (var j = 0; j < skills.length; j++) {
 			// debug
-			console.log('\t\t- getting data for skill ' + skills[j].display_name);
+			// console.log('\t\t- getting data for skill ' + skills[j].display_name);
 
 			// get skill data for today
 			info.skills_today.push(get_skill_today_data(data, skills[j]));
@@ -536,10 +536,11 @@ var parse_exp_csv = function(csv_txt) {
 		});
 	}
 
-	//console.log('cur goal:      ' + cur_goal);
-	//console.log('past progress: ' + past_progress);
-	//console.log('today progress:' + today_progress);
-	//console.log(retobj);
+	// debug
+	// console.log('cur goal:      ' + cur_goal);
+	// console.log('past progress: ' + past_progress);
+	// console.log('today progress:' + today_progress);
+	// console.log(retobj);
 	return retobj;
 };
 
