@@ -6,5 +6,5 @@ git push heroku deploy:master
 cp exp_url ../
 cp abilities_url ../
 git checkout master
-mv ../exp_url .
-mv ../abilities_url .
+mv ../exp_url ./
+mv ../abilities_url ./
