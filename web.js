@@ -15,6 +15,7 @@ var exp_url = String(fs.readFileSync('exp_url'));
 var abilities_url = String(fs.readFileSync('abilities_url'));
 var jade_options = {pretty: true};
 var pub_dir = __dirname + '/public/';
+var views_dir = pub_dir + 'views/';
 var port = process.env.PORT || 5000;
 
 
@@ -636,7 +637,7 @@ var process_request = function(data, response) {
 		"ability_data": ability_data,
 		"boss_list": boss_list
 	};
-	response.render(pub_dir + 'index.jade', merge(jade_options, locals));
+	response.render(views_dir + 'index.jade', merge(jade_options, locals));
 };
 
 
