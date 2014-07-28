@@ -1,17 +1,18 @@
-h1 LEVEL
-table.plvltable
-	tr
-		td(rowspan=2)
-			p.plvl=level_data.level
-		td.bottomcell
-			p.plvl_headings EXP
-		td.bottomcell
-			p.plvl_mins=level_data.exp
-	tr
-		td.topcell
-			p.plvl_headings NEXT
-		td.topcell
-			p.plvl_mins=level_data.needed
-	tr
-		td(colspan=3)
-			progress.pbarplvl(max=(level_data.progress + level_data.needed), value=level_data.progress)
+//- Row: level
+.row
+	//- Col progress
+	.col-xs-12.progressDiv
+		progress(max=(level_data.progress + level_data.needed), value=level_data.progress)
+//- Row: level info
+.row
+	//- Col cur level
+	.col-xs-6.plvlcur
+		| level&nbsp;
+		= level_data.level
+	//- Col exp to next level
+	.col-xs-6.plvlnext
+		= level_data.needed
+		| &nbsp;&rarr;
+//- Row: spacing
+.row
+	.col-xs-12.spaceRow

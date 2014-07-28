@@ -5,10 +5,9 @@
     "colors": "*",
     "express": "*",
     "jade": "*",
-    "merge": "*",
     "underscore": "*",
     "request": "*"
-  },  
+  },
   "description": "Track minutes, gain experience for skills and levels, fight bosses, get rewards.",
   "main": "web.js",
   "scripts": {
@@ -23,7 +22,7 @@
     "tracking"
   ],
   "author": "Maxwell Forbes",
-  "license": "BSD-2-Clause",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/mbforbes/levelup/issues"
   }

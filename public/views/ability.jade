@@ -1,60 +1,34 @@
-h2=ability.display_name
-if ability.level < 25
-	.ablock
-	.ublock
-	.ublock
-	.ublock
-	.ublock
-	h4 Novice
-else if ability.level < 50
-	.ublock
-	.ablock
-	.ublock
-	.ublock
-	.ublock
-	h4 Apprentice
-else if ability.level < 75
-	.ublock
-	.ublock
-	.ablock
-	.ublock
-	.ublock
-	h4 Journeyman
-else if ability.level < 100
-	.ublock
-	.ublock
-	.ublock
-	.ablock
-	.ublock
-	h4 Expert
-else
-	.ublock
-	.ublock
-	.ublock
-	.ublock
-	.ablock
-	h4 Master
-.overall
-	h3 OVERALL
-	table.alvltable
-		tr
-			td(width=20, rowspan=2)
-				p.alvl=ability.level
-			td(width=80, rowspan=2)
-				p.alvltxt ability
-				p.alvltxt2 level
-			td.expcell.bottomcell(width=150)
-				b.aexptxt exp &nbsp;
-				b.aexp=ability.exp
-		tr
-			td.expcell.topcell
-				b.anexttxt next &nbsp;
-				b.anext=ability.needed
-		tr
-			td(colspan=3)
-				progress(max=ability.exp, value=(ability.exp - ability.needed))
+.row
+	// Col cur level
+	.col-xs-9.col-md-10
+		// Inline row: top row text
+		.row.toptext
+			.col-xs-8.left
+				= ability.display_name
+			.col-xs-4.right
+				| level&nbsp;
+				= ability.level
+		// Inline row: 6 blocks to denote level class
+		.row
+			each b in [0, 1, 2, 3, 4, 5]
+				if b == 0
+					.col-xs-2.bcol.first
+						include block
+				else if b == 5
+					.col-xs-2.bcol.last
+						include block
+				else
+					.col-xs-2.bcol
+						include block
 
-.skillstoday
-	h3 SKILLS TODAY
-	for skill in ability.skills_today
-		include skill_today
+		// Inline row: bottom row text
+		.row.bottomtext
+			.col-xs-6.left
+				= ability.tag
+			.col-xs-6.right.dark
+				= ability.needed
+				| &nbsp;&rarr;
+
+	// Col exp to next level
+	.col-xs-3.col-md-2.donut
+		.donutchart

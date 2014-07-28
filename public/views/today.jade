@@ -1,0 +1,15 @@
+//- Row: daily circles
+.row
+	//- Hidden in row: form
+	form(name='dailiesForm', action='javascript:void(0);', onsubmit='enterDailies()')
+
+		//- Make a daily circle for all skills
+		each ability in ability_data
+			each skill in ability.skills_today
+				include today_circle
+
+		//- "Invisible" submit button between rows.
+		input(type='submit', style='position: absolute; left: -9999px')
+//- Row: spacing
+.row
+	.col-xs-12.spaceRow

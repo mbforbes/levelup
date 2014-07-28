@@ -1,0 +1,21 @@
+//- {
+//-   "code_name": string,
+//-   "display_name": string,
+//-   "exp_today": int,
+//-   "goal": int
+//-   "need_today": int // goal - exp_today or 0
+//- },
+//- Circle
+.col-xs-5ths.circleDiv.uncomplete
+		.radial-progress
+			.circle
+				.mask.full
+					.fill
+				.mask.half
+					.fill
+					.fill.fix
+				.shadow
+			.inset
+				input.percentage(name=skill.display_name placeholder=skill.exp_today type='number' goal=skill.goal)
+		p.circleLabel
+			= skill.display_name

@@ -4,7 +4,6 @@
 var request = require('request');
 var express = require("express");
 var fs = require("fs");
-var merge = require('merge');
 var _ = require('underscore');
 
 
@@ -23,7 +22,7 @@ var port = process.env.PORT || 5000;
 // ----------------------------------------------------------------------------
 
 var app = express();
-app.use(express.logger());
+// app.use(express.logger());
 app.use(express.static(pub_dir));
 
 
@@ -119,6 +118,7 @@ var get_level_data = function(data) {
 //    "code_name": string,
 //    "display_name", string,
 //    "level": int,
+//    "tag": str,
 //    "exp": int,
 //    "progress": int, // [=====---]
 //    "needed": int      // [-----===]
@@ -190,6 +190,8 @@ var get_ability_data = function(data) {
 		info.progress = exp_leftover;
 		info.needed = needed;
 		info.skills_today = [];
+		info.block_n = get_alvl_block(alvl);
+		info.tag = get_alvl_str(info.block_n);
 
 		// also save level back in data for future use
 		// NOTE: is this bad design? It's certainly convenient...
@@ -210,6 +212,52 @@ var get_ability_data = function(data) {
 		ret.push(info);
 	}
 	return ret;
+};
+
+// Returns the "block" number of the given alvl (coarse-grained level
+// indicator) between 1 and 6
+//
+// args: int
+// returns: int
+get_alvl_block = function(alvl) {
+	if (alvl < 15) {
+		return 1;
+	} else if (alvl < 25) {
+		return 2;
+	} else if (alvl < 50) {
+		return 3;
+	} else if (alvl < 75) {
+		return 4;
+	} else if (alvl < 100) {
+		return 5;
+	} else {
+		return 6;
+	}
+};
+
+// Returns one of 'beginner', 'novice', 'apprentice', 'journeyman',
+// 'expert', or 'master'
+//
+// args: int
+// returns: str
+var get_alvl_str = function(block_number) {
+	// this is really a constant, but it's super constant, so i din't
+	// think it even needs to go in a DB. except maybe if int8l ever
+	// needs to happen.
+	blocks = [
+		'UNDEFINED',
+		'beginner',
+		'novice',
+		'apprentice',
+		'journeyman',
+		'expert',
+		'master'
+	]
+	// safety
+	if (block_number < 0 || block_number >= blocks.length) {
+		block_number = 0;
+	}
+	return blocks[block_number]
 };
 
 // arguments: TODO(max): Argument format.
@@ -601,7 +649,7 @@ var load_data = function(resp) {
 var load_exp = function(data, resp) {
 	request(exp_url, function (error, response, body) {
 		if (!error && response.statusCode == 200) {
-			data = merge(data, parse_exp_csv(body));
+			data = _.extend({}, data, parse_exp_csv(body));
 			load_abilities(data, resp);
 		} else {
 			console.log("There was a problem getting the exp data." +
@@ -637,7 +685,10 @@ var process_request = function(data, response) {
 		"ability_data": ability_data,
 		"boss_list": boss_list
 	};
-	response.render(views_dir + 'index.jade', merge(jade_options, locals));
+	response.render(
+		views_dir + 'index.jade',
+		_.extend({}, jade_options, locals)
+	);
 };
 
 
@@ -654,5 +705,5 @@ app.get('/', function(request, response) {
 // ----------------------------------------------------------------------------
 
 app.listen(port, function() {
-  console.log("Listening on " + port);
+	console.log("Listening on " + port);
 });
