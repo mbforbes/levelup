@@ -2,10 +2,40 @@
 // ----------------------------------------------------------------------------
 
 var request = require('request');
-var express = require("express");
-var fs = require("fs");
+var express = require('express');
+var passport = require('passport')
+	, GoogleStrategy = require('passport-google').Strategy;
+var fs = require('fs');
 var _ = require('underscore');
 
+
+// Configuration
+// ----------------------------------------------------------------------------
+
+passport.use(new GoogleStrategy({
+	returnURL: 'http://localhost:5000/auth/google/return',
+	realm: 'http://localhost:5000'
+	},
+	function(identifier, profile, done) {
+		console.log('identifier:');
+		console.log(identifier);
+		console.log('profile:');
+		console.log(profile);
+		err = null;
+		if (profile.emails[0].value != 'm.b.forbes@gmail.com') {
+			err = "You aren't the user we're looking for.";
+		}
+		done(err, profile);
+	}
+));
+
+passport.serializeUser(function(user, done) {
+  done(null, user);
+});
+
+passport.deserializeUser(function(user, done) {
+  done(null, user);
+});
 
 // Settings
 // ----------------------------------------------------------------------------
@@ -24,6 +54,9 @@ var port = process.env.PORT || 5000;
 var app = express();
 // app.use(express.logger());
 app.use(express.static(pub_dir));
+app.use(passport.initialize());
+// app.use(passport.session());
+
 
 
 // Util functions
@@ -695,9 +728,29 @@ var process_request = function(data, response) {
 // Routing
 // ----------------------------------------------------------------------------
 
+// How do we filter by logged-in-ness?
 app.get('/', function(request, response) {
+	console.log("route: root");
 	// We load the data per request, and send response after it's done.
 	load_data(response);
+});
+
+// Here's how we login.
+app.get('/auth/google', passport.authenticate('google'));
+
+// Google redirects here after authenticaion. We must finish the process
+// by "verifying the assertion" (which assertion?). Anyway, we just
+// conditionally redirect.
+app.get('/auth/google/return', passport.authenticate('google', {
+	successRedirect: '/',
+	failureRedirect: '/failure'
+}));
+
+// Failures go here. Very cry. Much unfortunate.
+app.get('/failure', function(request, response) {
+	console.log("route: failure");
+	// We load the data per request, and send response after it's done.
+	response.render(views_dir + 'failure.jade', jade_options);
 });
 
 
