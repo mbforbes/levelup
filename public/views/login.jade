@@ -1,0 +1,11 @@
+include top
+body
+	.container
+		include propaganda
+		.row
+			.col-xs-12.loginarea
+				a(href='/auth/google')
+					button.btn.btn-default.btn-md(type="button")
+						span.glyphicon.glyphicon-cloud
+						| &nbsp; Sign in with Google
+	include js

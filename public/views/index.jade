@@ -1,20 +1,8 @@
-doctype html
-html(lang='en')
-	head
-		title levelup
-
-		//- Crazy Bootstrap mobile tag.
-		meta(name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no")
-
-		//- Bootstrap: Latest compiled and minified CSS
-		link(rel="stylesheet" href="../css/bootstrap.min.css")
-
-		//- Our custom stylesheet
-		link(rel='stylesheet' href='../css/style.css')
-
-	body
-		.container
-			include today
-			include plvl
-			include abilities
-		include js
+include top
+body
+	.container
+		include today
+		include plvl
+		include abilities
+		include bottom
+	include js

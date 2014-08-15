@@ -47,6 +47,7 @@
 
 @light_1: #d6dadc;
 @light_2: #888;
+@light_25: #555;
 @light_3: #333;
 
 @c_uncompleted: @orange;
@@ -61,11 +62,35 @@
 /* Normal page CSS: --------------------------------------------------*/
 
 body {
-	background-color: #3f3f3f;
+	background-color: @dark;
 	font-family: "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
 	color: @c_text;
-	/*font-weight: 200;*/
 	font-size: 16pt;
+}
+
+.jumbotron {
+	background-color: @dark;
+}
+
+.sorry {
+	text-align: center;
+	font-weight: 200;
+}
+
+.bottomstuff {
+	hr {
+		border-color: @light_25;
+		margin-bottom: 5px;
+	}
+	text-align: right;
+	font-size: 12pt;
+	a {
+		color: @light_25;
+	}
+}
+
+.loginarea {
+	text-align: center;
 }
 
 .circleDiv {

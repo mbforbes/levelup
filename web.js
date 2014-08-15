@@ -3,6 +3,7 @@
 
 var request = require('request');
 var express = require('express');
+var session = require('express-session');
 var passport = require('passport')
 	, GoogleStrategy = require('passport-google').Strategy;
 var fs = require('fs');
@@ -21,11 +22,14 @@ passport.use(new GoogleStrategy({
 		console.log(identifier);
 		console.log('profile:');
 		console.log(profile);
-		err = null;
-		if (profile.emails[0].value != 'm.b.forbes@gmail.com') {
-			err = "You aren't the user we're looking for.";
+		email = profile.emails[0];
+		// this makes it a closed alpha! Change if you fork.
+		if (profile.emails[0].value == 'm.b.forbes@gmail.com') {
+			user = email;
+		} else {
+			user = false;
 		}
-		done(err, profile);
+		done(null, user);
 	}
 ));
 
@@ -54,8 +58,9 @@ var port = process.env.PORT || 5000;
 var app = express();
 // app.use(express.logger());
 app.use(express.static(pub_dir));
+app.use(session({secret: 'shoud this be more secret?'}));
 app.use(passport.initialize());
-// app.use(passport.session());
+app.use(passport.session());
 
 
 
@@ -728,12 +733,35 @@ var process_request = function(data, response) {
 // Routing
 // ----------------------------------------------------------------------------
 
-// How do we filter by logged-in-ness?
-app.get('/', function(request, response) {
+// function (middleware?) to ensure a user is logged in
+var is_logged_in = function(req, res, next) {
+	if (req.isAuthenticated()) {
+		return next();
+	}
+	res.redirect('/login')
+};
+
+// main page shows data if logged in, redirects to login if not
+app.get('/', is_logged_in, function(request, response) {
 	console.log("route: root");
 	// We load the data per request, and send response after it's done.
 	load_data(response);
 });
+
+app.get('/login', function(request, response) {
+	console.log("route: login");
+	// TODO(mbforbes): Maybe also redirect here to main page if person
+	// actually is logged in and tries to go to this URL.
+
+	// We load the data per request, and send response after it's done.
+	response.render(views_dir + 'login.jade', jade_options);
+});
+
+app.get('/logout', function(request, response) {
+	request.logout();
+	response.redirect('/');
+});
+
 
 // Here's how we login.
 app.get('/auth/google', passport.authenticate('google'));
@@ -752,6 +780,8 @@ app.get('/failure', function(request, response) {
 	// We load the data per request, and send response after it's done.
 	response.render(views_dir + 'failure.jade', jade_options);
 });
+
+
 
 
 // Execution starts here

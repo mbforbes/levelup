@@ -39,8 +39,28 @@ body {
   background-color: #3f3f3f;
   font-family: "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
   color: #ffffbf;
-  /*font-weight: 200;*/
   font-size: 16pt;
+}
+.jumbotron {
+  background-color: #3f3f3f;
+}
+.sorry {
+  text-align: center;
+  font-weight: 200;
+}
+.bottomstuff {
+  text-align: right;
+  font-size: 12pt;
+}
+.bottomstuff hr {
+  border-color: #555555;
+  margin-bottom: 5px;
+}
+.bottomstuff a {
+  color: #555555;
+}
+.loginarea {
+  text-align: center;
 }
 .circleDiv {
   text-align: center;
