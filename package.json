@@ -9,7 +9,8 @@
     "underscore": "*",
     "request": "*",
     "passport": "*",
-    "passport-google": "*"
+    "passport-google": "*",
+    "pg": "*"
   },
   "description": "Track minutes, gain experience for skills and levels, fight bosses, get rewards.",
   "main": "web.js",

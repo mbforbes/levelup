@@ -8,10 +8,14 @@ var passport = require('passport')
 	, GoogleStrategy = require('passport-google').Strategy;
 var fs = require('fs');
 var _ = require('underscore');
+var pg = require('pg');
 
 
 // Configuration
 // ----------------------------------------------------------------------------
+
+// Use this for pg on Heroku.
+// console.log(process.env.DATABASE_URL);
 
 passport.use(new GoogleStrategy({
 	returnURL: 'http://localhost:5000/auth/google/return',
