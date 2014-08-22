@@ -790,7 +790,6 @@ app.get('/ajax/ability/edit', is_logged_in, function(request, response) {
 
 // Accept an edit push.
 app.post('/ajax/ability/add', is_logged_in, function(request, response) {
-	console.log(request.body);
 	ability.add(request, response);
 });
 

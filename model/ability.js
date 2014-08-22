@@ -34,24 +34,44 @@ var getAbilitiesForPid = function(client, pid, prevResult, callback) {
 	);
 };
 
+var checkAbilityCanBeAdded = function(client, pid, adata, prevResult, callback) {
+	// First, ensure the data isn't garbage.
+	if (adata.name.length == 0 || adata.short.length == 0) {
+		callback('Neither field can be empty.', null);
+	} else {
+		// Next, ensure it doesn't already exist.
+		console.log('Checking whether pid ' + pid + ' has ability:');
+		console.log(adata);
+		client.query(
+			"SELECT * FROM ability WHERE pid=($1) AND (name=($2) or short=($3));",
+			[pid, adata.name, adata.short],
+			callback
+		);
+	}
+}
+
 var addAbility = function(client, pid, adata, prevResult, callback) {
-	console.log('Adding ability for pid ' + pid + ':');
-	console.log(adata);
-	client.query(
-		"INSERT INTO ability (pid, name, short) VALUES ($1, $2, $3);",
-		[pid, adata.name, adata.short],
-		callback
-	);
+	if (prevResult.rows.length > 0) {
+		callback('Ability (' + adata.name + ', ' + adata.short +
+			') name or short already exists.', null);
+	} else {
+		console.log('Adding ability for pid ' + pid + ':');
+		console.log(adata);
+		client.query(
+			"INSERT INTO ability (pid, name, short) VALUES ($1, $2, $3);",
+			[pid, adata.name, adata.short],
+			callback
+		);
+	}
 };
 
 // API
 
 var add = function(request, response) {
-	console.log(request);
 	// extract data
 	adata = {
-		name: request.body.name,
-		short: request.body.short
+		name: request.body.name.trim(),
+		short: request.body.short.trim()
 	};
 
 	// Do the insertion.
@@ -62,6 +82,7 @@ var add = function(request, response) {
 	// Do the calls.
 	async.waterfall([
 		_.partial(maybeMakeAbilityTable, client),
+		_.partial(checkAbilityCanBeAdded, client, request.user, adata),
 		_.partial(addAbility, client, request.user, adata)
 	], function(err, result) {
 		// Always release client.
@@ -69,9 +90,8 @@ var add = function(request, response) {
 
 		// check what we got
 		if (err) {
-			console.log('Problem getting all abilities:');
 			console.log(err);
-			response.status(500).send('BAD');
+			response.status(500).send(err);
 		} else {
 			// Just let client know we did it correctly.
 			console.log('Successfully added ability.');

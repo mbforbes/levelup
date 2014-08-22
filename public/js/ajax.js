@@ -38,21 +38,24 @@ var updatePlayersSuccess = function(data, status, jqxhr) {
 
 // Abilities ajax
 
+var abilitiesMessageFailure = function(jqxhr, textStatus, errorThrown) {
+	$('div.abilitiesMessage').text(jqxhr.responseText);
+	$('div.abilitiesMessage').addClass('flash');
+	setTimeout(function() {
+		$('div.abilitiesMessage').removeClass('flash');
+	}, 2000)
+};
+
 var addAbility = function() {
 	$.ajax('/ajax/ability/add', {
 		type: 'POST',
 		data: $('#abilityAdd').serialize(),
-		success: refreshAbilitiesEdit
+		success: getAbilitiesEdit,
+		statusCode: {
+			500: abilitiesMessageFailure
+		}
 	});
 }
-
-// helper
-var refreshAbilitiesEdit = function() {
-	// clear
-	// $('div.editabilities').html('');
-	// fetch
-	getAbilitiesEdit();
-};
 
 var getAbilitiesEdit = function() {
 	console.log('Getting abilities for editing.');

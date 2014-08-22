@@ -46,6 +46,7 @@ h2 {
 }
 input {
   background-color: #3f3f3f;
+  width: 100%;
 }
 .jumbotron {
   background-color: #3f3f3f;
@@ -99,10 +100,17 @@ input::-webkit-inner-spin-button {
 }
 .plvlnext {
   text-align: right;
-  color: #888;
+  color: #888888;
 }
 .spaceRow {
   height: 30px;
+}
+.abilityRow {
+  margin-bottom: 5px;
+}
+.abilitiesMessage {
+  color: #888888;
+  font-style: italic;
 }
 .block,
 .ublock,
@@ -143,6 +151,47 @@ input::-webkit-inner-spin-button {
   margin-left: auto;
   margin-right: auto;
   max-height: 120px;
+}
+.flash {
+  -moz-animation: flash 1s ease-out;
+  -moz-animation-iteration-count: 1;
+  -webkit-animation: flash 1s ease-out;
+  -webkit-animation-iteration-count: 1;
+  -ms-animation: flash 1s ease-out;
+  -ms-animation-iteration-count: 1;
+}
+@-webkit-keyframes flash {
+  0% {
+    background-color: none;
+  }
+  50% {
+    background-color: #e41a1c;
+  }
+  100% {
+    background-color: none;
+  }
+}
+@-moz-keyframes flash {
+  0% {
+    background-color: none;
+  }
+  50% {
+    background-color: #e41a1c;
+  }
+  100% {
+    background-color: none;
+  }
+}
+@-ms-keyframes flash {
+  0% {
+    background-color: none;
+  }
+  50% {
+    background-color: #e41a1c;
+  }
+  100% {
+    background-color: none;
+  }
 }
 /* Circle CSS stuff: -------------------------------------------------*/
 /* Default: */

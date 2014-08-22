@@ -43,7 +43,7 @@
 @y_off_g: #e6f598;
 @green: #91cf60;
 @dark: #3f3f3f;
-
+@red: #e41a1c;
 
 @light_1: #d6dadc;
 @light_2: #888;
@@ -54,6 +54,7 @@
 @c_completed: @green;
 @c_text: @yellow;
 @c_bg: @dark;
+@c_badflash: @red;
 
 /* Size settings */
 @donut_height: 120px;
@@ -74,6 +75,7 @@ h2 {
 
 input {
 	background-color: @dark;
+	width: 100%;
 }
 
 .jumbotron {
@@ -140,11 +142,20 @@ input::-webkit-inner-spin-button {
 
 .plvlnext {
 	text-align: right;
-	color: #888;
+	color: @light_2;
 }
 
 .spaceRow {
 	height: 30px;
+}
+
+.abilityRow {
+	margin-bottom: 5px;
+}
+
+.abilitiesMessage {
+	color: @light_2;
+	font-style: italic;
 }
 
 
@@ -196,6 +207,37 @@ input::-webkit-inner-spin-button {
 	max-height: @donut_height;
 }
 
+// Ugh code bloat crap. Could be better in so many ways. Sigh.
+
+.flash {
+  -moz-animation: flash 1s ease-out;
+  -moz-animation-iteration-count: 1;
+
+  -webkit-animation: flash 1s ease-out;
+  -webkit-animation-iteration-count: 1;
+
+  -ms-animation: flash 1s ease-out;
+  -ms-animation-iteration-count: 1;
+
+}
+
+@-webkit-keyframes flash {
+    0% { background-color:none;}
+    50% { background-color: @c_badflash;}
+    100% {background-color:none;}
+}
+
+@-moz-keyframes flash {
+    0% { background-color:none;}
+    50% { background-color: @c_badflash;}
+    100% {background-color:none;}
+}
+
+@-ms-keyframes flash {
+    0% { background-color:none;}
+    50% { background-color: @c_badflash;}
+    100% {background-color:none;}
+}
 
 /* Circle CSS stuff: -------------------------------------------------*/
 
