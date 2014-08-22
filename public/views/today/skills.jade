@@ -6,7 +6,7 @@
 		//- Make a daily circle for all skills
 		each ability in ability_data
 			each skill in ability.skills_today
-				include today_circle
+				include skill
 
 		//- "Invisible" submit button between rows.
 		input(type='submit', style='position: absolute; left: -9999px')

@@ -1,0 +1,10 @@
+include top
+body
+	.container
+		include propaganda
+		.row
+			.col-xs-12
+				p.players
+				p How many players we have.
+				input(type="submit" text="update" onclick="updatePlayersRequest()")
+	include js

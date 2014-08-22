@@ -179,26 +179,29 @@ function drawChart() {
 
 // "global" code -------------------------------------------------------
 // replaces google.setOnLoadCallback(drawChart);
-$(document).ready(function() {
-	// check for greenness of css3 daily circles
-	setTimeout(startgrow, 0);
+// $(document).ready(function() {
+// 	// check for greenness of css3 daily circles
+// 	setTimeout(startgrow, 0);
 
-	// set resize callbacks
-	// create trigger to resizeEnd event
-	$(window).resize(function() {
-	    if (this.resizeTO) {
-	    	clearTimeout(this.resizeTO);
-	    }
-	    this.resizeTO = setTimeout(function() {
-	        $(this).trigger('resizeEnd');
-	    }, 200);
-	});
+// 	// set resize callbacks
+// 	// create trigger to resizeEnd event
+// 	$(window).resize(function() {
+// 	    if (this.resizeTO) {
+// 	    	clearTimeout(this.resizeTO);
+// 	    }
+// 	    this.resizeTO = setTimeout(function() {
+// 	        $(this).trigger('resizeEnd');
+// 	    }, 200);
+// 	});
 
-	// redraw graph when window resize is completed
-	$(window).on('resizeEnd', function() {
-	    drawChart();
-	});
+// 	// redraw graph when window resize is completed
+// 	$(window).on('resizeEnd', function() {
+// 	    drawChart();
+// 	});
 
-	// draw initial google charts
-	drawChart();
-});
+// 	// draw initial google charts
+// 	drawChart();
+
+// 	// attach ajax handlers
+// 	initAjx();
+// });

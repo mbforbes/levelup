@@ -4,6 +4,7 @@
   "dependencies": {
     "colors": "*",
     "express": "*",
+    "body-parser": "*",
     "express-session": "*",
     "jade": "*",
     "underscore": "*",

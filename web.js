@@ -3,37 +3,28 @@
 
 var request = require('request');
 var express = require('express');
+var bodyParser = require('body-parser');
 var session = require('express-session');
 var passport = require('passport')
 	, GoogleStrategy = require('passport-google').Strategy;
 var fs = require('fs');
 var _ = require('underscore');
-var pg = require('pg');
+
+// Models
+var player = require('./model/player');
+var ability = require('./model/ability');
 
 
 // Configuration
 // ----------------------------------------------------------------------------
-
-// Use this for pg on Heroku.
-// console.log(process.env.DATABASE_URL);
 
 passport.use(new GoogleStrategy({
 	returnURL: 'http://localhost:5000/auth/google/return',
 	realm: 'http://localhost:5000'
 	},
 	function(identifier, profile, done) {
-		console.log('identifier:');
-		console.log(identifier);
-		console.log('profile:');
-		console.log(profile);
-		email = profile.emails[0];
-		// this makes it a closed alpha! Change if you fork.
-		if (profile.emails[0].value == 'm.b.forbes@gmail.com') {
-			user = email;
-		} else {
-			user = false;
-		}
-		done(null, user);
+		email = profile.emails[0].value;
+		player.getPid(email, done);
 	}
 ));
 
@@ -61,6 +52,8 @@ var port = process.env.PORT || 5000;
 
 var app = express();
 // app.use(express.logger());
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded());
 app.use(express.static(pub_dir));
 app.use(session({secret: 'shoud this be more secret?'}));
 app.use(passport.initialize());
@@ -728,7 +721,7 @@ var process_request = function(data, response) {
 		"boss_list": boss_list
 	};
 	response.render(
-		views_dir + 'index.jade',
+		views_dir + 'today/today.jade',
 		_.extend({}, jade_options, locals)
 	);
 };
@@ -766,6 +759,44 @@ app.get('/logout', function(request, response) {
 	response.redirect('/');
 });
 
+app.get('/test', is_logged_in, function(request, response) {
+	response.render(views_dir + 'test.jade', jade_options);
+});
+
+// Editing
+app.get('/edit', is_logged_in, function(request, response) {
+	response.render(views_dir + 'edit/edit.jade', jade_options);
+});
+
+// Ajax
+// --------
+
+// Get number of players (just testing).
+app.get('/ajax/player/getNum', is_logged_in, function(request, response) {
+	player.getNum(request, response);
+});
+
+var renderAbilityEdit = function(request, response, data) {
+	response.render(
+		views_dir + 'edit/abilities_backend.jade',
+		_.extend({}, jade_options, data)
+	);
+};
+
+// Get all abilities for editing.
+app.get('/ajax/ability/edit', is_logged_in, function(request, response) {
+	ability.getAll(request, response, renderAbilityEdit);
+});
+
+// Accept an edit push.
+app.post('/ajax/ability/add', is_logged_in, function(request, response) {
+	console.log(request.body);
+	ability.add(request, response);
+});
+
+
+// Auth
+// --------
 
 // Here's how we login.
 app.get('/auth/google', passport.authenticate('google'));
@@ -784,7 +815,6 @@ app.get('/failure', function(request, response) {
 	// We load the data per request, and send response after it's done.
 	response.render(views_dir + 'failure.jade', jade_options);
 });
-
 
 
 

@@ -41,6 +41,12 @@ body {
   color: #ffffbf;
   font-size: 16pt;
 }
+h2 {
+  font-size: 30pt;
+}
+input {
+  background-color: #3f3f3f;
+}
 .jumbotron {
   background-color: #3f3f3f;
 }
