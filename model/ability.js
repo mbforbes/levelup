@@ -1,16 +1,17 @@
+/* Ability model.
+ *
+ */
+
 var async = require('async');
 var util = require('./util');
 var _ = require('underscore');
-
-// settings
-// TODO(mbforbes): Get this from request.
-var email = 'm.b.forbes@gmail.com';
 
 // async helper functions
 
 // Creates the ability table if it doesn't exist.
 //
 // Args:
+//     client (from postgresql)
 //     callback (f(err,res)): passed to query to call upon completion
 var maybeMakeAbilityTable = function(client, callback) {
 	console.log('Maybe creating ability table.');
@@ -25,6 +26,13 @@ var maybeMakeAbilityTable = function(client, callback) {
 	);
 };
 
+// Gets the abilities for the provided pid.
+//
+// Args:
+//     client (from postgresql)
+//     pid (int): unique user identifier
+//     prevResult (object): unused
+//     callback (f(err,res)): passed to query to call upon completion
 var getAbilitiesForPid = function(client, pid, prevResult, callback) {
 	console.log('Getting abilities for pid ' + pid);
 	client.query(
@@ -34,6 +42,18 @@ var getAbilitiesForPid = function(client, pid, prevResult, callback) {
 	);
 };
 
+// Checks whether ability specified by adata can be added for player
+// represented by pid.
+//
+// Calls callback either with an error or a length > 0 result if the
+// ability cannot be added. Else, it can be added.
+//
+// Args:
+//     client (from postgresql)
+//     pid (int): unique user identifier
+//     adata ({name: str, short: str})
+//     prevResult (object): unused
+//     callback (f(err,res)): passed to query to call upon completion
 var checkAbilityCanBeAdded = function(client, pid, adata, prevResult, callback) {
 	// First, ensure the data isn't garbage.
 	if (adata.name.length == 0 || adata.short.length == 0) {
@@ -50,6 +70,14 @@ var checkAbilityCanBeAdded = function(client, pid, adata, prevResult, callback) 
 	}
 }
 
+// Adds the ability specified by adata for player with the provided pid.
+//
+// Args:
+//     client (from postgresql)
+//     pid (int): unique user identifier
+//     adata ({name: str, short: str})
+//     prevResult (object): unused
+//     callback (f(err,res)): passed to query to call upon completion
 var addAbility = function(client, pid, adata, prevResult, callback) {
 	if (prevResult.rows.length > 0) {
 		callback('Ability (' + adata.name + ', ' + adata.short +
@@ -67,14 +95,18 @@ var addAbility = function(client, pid, adata, prevResult, callback) {
 
 // API
 
+// Maybe adds the ability specified in the request body; responds
+// appropriately (we hope).
+//
+// Args:
+//     request (from express)
+//     response (from express)
 var add = function(request, response) {
 	// extract data
 	adata = {
 		name: request.body.name.trim(),
 		short: request.body.short.trim()
 	};
-
-	// Do the insertion.
 
 	// make a client
 	var client = util.getClient();
@@ -88,7 +120,7 @@ var add = function(request, response) {
 		// Always release client.
 		util.endClient(client);
 
-		// check what we got
+		// Check what we got.
 		if (err) {
 			console.log(err);
 			response.status(500).send(err);
@@ -100,9 +132,15 @@ var add = function(request, response) {
 	});
 };
 
-
+// Gets all all of the user's abilities; passes along by calling done
+// when finished.
+//
+// Args:
+//     request (from express)
+//     response (from express)
+//     done (fn(request, response, {abilities: rows}))
 getAll = function(request, response, done) {
-	// make a client
+	// Make a client.
 	var client = util.getClient();
 
 	async.waterfall([
@@ -112,7 +150,7 @@ getAll = function(request, response, done) {
 		// Always release client.
 		util.endClient(client);
 
-		// check what we got
+		// Check what we got.
 		if (err) {
 			console.log('Problem getting all abilities:');
 			console.log(err);

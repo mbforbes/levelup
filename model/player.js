@@ -1,10 +1,10 @@
+/* Player model.
+ *
+ */
+
 var async = require('async');
 var util = require('./util');
 var _ = require('underscore');
-
-// settings
-// TODO(mbforbes): Get this from request.
-// var email = 'm.b.forbes@gmail.com';
 
 // async helper functions
 
@@ -69,7 +69,7 @@ var getAllPlayers = function(client, prevResult, callback) {
 // API methods
 
 var getPid = function(email, done) {
-	// make a client
+	// Make a client.
 	var client = util.getClient();
 
 	async.waterfall([
@@ -97,19 +97,19 @@ var getPid = function(email, done) {
 };
 
 var getNumPlayers = function(request, response) {
-	// make a client
+	// Make a client.
 	var client = util.getClient();
 
-	// run queries in order
+	// Run queries in order.
 	async.waterfall([
-		// bind client as calling, other results get chained.
+		// Bind client as calling, other results get chained.
 		_.partial(maybeMakePlayerTable, client),
 		_.partial(getAllPlayers, client)
 	], function(err, result) {
 		// Always release client.
 		util.endClient(client);
 
-		// check what we got
+		// Check what we got.
 		if (err) {
 			console.log('Problem:');
 			console.log(err);
@@ -127,4 +127,3 @@ var getNumPlayers = function(request, response) {
 // Define our API.
 exports.getNum = getNumPlayers;
 exports.getPid = getPid;
-
