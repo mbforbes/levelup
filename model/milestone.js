@@ -21,14 +21,14 @@ var _ = require('underscore');
 //     callback (f(err,res)): passed to query to call upon completion
 var maybeMakeMilestoneTable = function(client, type, callback) {
 	console.log('Maybe creating ' + type + ' table.');
-	client.query("                           \
+	client.query("                                \
 		CREATE TABLE IF NOT EXISTS " + type + " ( \
-			aid    int,                      \
-			id     serial,                   \
-			lvl    int,                      \
-			name   varchar(255),             \
-			desc   varchar(255),             \
-			done   bool                      \
+			aid    int,                           \
+			id     serial,                        \
+			lvl    int,                           \
+			name   varchar(255),                  \
+			desc   varchar(255),                  \
+			done   bool                           \
 		);",
 		callback
 	);

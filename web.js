@@ -1,18 +1,18 @@
 // Module dependencies
 // ----------------------------------------------------------------------------
 
-var request = require('request');
-var express = require('express');
-var bodyParser = require('body-parser');
-var session = require('express-session');
-var passport = require('passport')
-	, GoogleStrategy = require('passport-google').Strategy;
-var fs = require('fs');
-var _ = require('underscore');
+var request = require('request'),
+    express = require('express'),
+    bodyParser = require('body-parser'),
+    session = require('express-session'),
+    passport = require('passport'),
+	GoogleStrategy = require('passport-google').Strategy,
+	fs = require('fs'),
+	_ = require('underscore');
 
 // Models
-var player = require('./model/player');
-var ability = require('./model/ability');
+var player = require('./model/player'),
+	ability = require('./model/ability');
 
 
 // Configuration
@@ -735,7 +735,7 @@ var is_logged_in = function(req, res, next) {
 	if (req.isAuthenticated()) {
 		return next();
 	}
-	res.redirect('/login')
+	res.redirect('/login');
 };
 
 // main page shows data if logged in, redirects to login if not

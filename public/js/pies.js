@@ -134,6 +134,8 @@ var checkgreen = function() {
 
 // goog pie code -------------------------------------------------------
 
+// TODO: Remove; we don't need this.
+
 // load google libraries (hopefulyl async...)
 google.load("visualization", "1", {packages:["corechart"]});
 

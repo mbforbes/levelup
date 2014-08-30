@@ -56,7 +56,7 @@ var getAbilitiesForPid = function(client, pid, prevResult, callback) {
 //     callback (f(err,res)): passed to query to call upon completion
 var checkAbilityCanBeAdded = function(client, pid, adata, prevResult, callback) {
 	// First, ensure the data isn't garbage.
-	if (adata.name.length == 0 || adata.short.length == 0) {
+	if (adata.name.length === 0 || adata.short.length === 0) {
 		callback('Neither field can be empty.', null);
 	} else {
 		// Next, ensure it doesn't already exist.
@@ -68,7 +68,7 @@ var checkAbilityCanBeAdded = function(client, pid, adata, prevResult, callback) 
 			callback
 		);
 	}
-}
+};
 
 // Adds the ability specified by adata for player with the provided pid.
 //
