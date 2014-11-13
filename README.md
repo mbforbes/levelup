@@ -4,20 +4,39 @@ Track minutes, gain experience for skills and levels, fight bosses, get rewards.
 ![preview of the levelup UI](levelup_ui.png)
 _A mockup of the UI I made (in Word!)_
 
+## Development plan
 
+### 0. Switch current models over to MongoDB + Mongoose
+* [X] Make sure this is the right way to do a list of check boxes.
+* [ ] Define models
+* [ ] Match current functionality, which appears to be loading the basic page w/o bosses or rewards & a simple edit (+add) functionality.
+* [ ] Cleanup the implementation to remove all CSV parsing crap, and all PG query crap. The data model that the old functions return might be so ingrained in the current code that it might just be worth starting fresh.
+* [ ] Address TODOs to clean up the code.
+* [ ] Hook up mongo to Heroku.
+* [ ] Disable PG & PG backups.
 
-## Setup
+### 0. Entire frontend should be async (Ajax)
+- [ ] Controller should query # skills (abilities? can't remember nomenclature...) to select model (how many bootstrap columns)
+- [ ] View should grab models from backend to populate
+- [ ] Models in frontend should use backbone.js (or something else) so they can be updated effortlessly
+- [ ] All models on page should update easily with a single mechanism, either cued by input or by a periodic refresh (e.g. every 10 seconds).
+
+### 0. Implement add / edit / delete
+- [ ] Abilities (if not already done)
+- [ ] Bosses
+- [ ] Rewards (code reuse with bosses?)
+
+### 0. Implement rest of main page UI
+- [ ] Bosses
+- [ ] Rewards
+
+### Polish
+- [ ] favicon.ico
+
+## Deprecated: Setup
 You need two files, which are both one-liner filess with URLs to an **old** Google Docs Spreadsheet with certain data format.
 - `exp_url` :   exp format (specified in web.js)
 - `abilities_url` : abilities format (specified in web.js)
-
-## TODO
-- favicon.ico
-- rest of the formatting
-- specify doc formats here
-- (if wanted eventually) bosses
-- (if wanted eventually) rewards
-- (eventually) faster loading (e.g. period pinging of google apps)
 
 ## Related work
 After having done my brainstorming, background research on why games are addicting, needs analysis, level math and balancing, mockups, and most of the backend / frontend coding, I then discovered [HabitRPG](https://habitrpg.com/).

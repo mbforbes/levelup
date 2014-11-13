@@ -41,6 +41,7 @@ passport.deserializeUser(function(user, done) {
 
 var exp_url = String(fs.readFileSync('exp_url'));
 var abilities_url = String(fs.readFileSync('abilities_url'));
+
 var jade_options = {pretty: true};
 var pub_dir = __dirname + '/public/';
 var views_dir = pub_dir + 'views/';
@@ -58,8 +59,6 @@ app.use(express.static(pub_dir));
 app.use(session({secret: 'shoud this be more secret?'}));
 app.use(passport.initialize());
 app.use(passport.session());
-
-
 
 // Util functions
 // ----------------------------------------------------------------------------
@@ -80,19 +79,27 @@ var stoi_zero = function(str) {
 // Data processing functions
 // ----------------------------------------------------------------------------
 
-// arguments: TODO(max): Argument format.
+// get_level_data calculates the player level (i.e. the overall level given
+// total exp). It currently does NOT take into account bosses as a limiting
+// factor.
+//
+// arguments: {
+//   "past_progress": [ {minutes: Number} ]
+//   "today_progress": [ {minutes: Number} ]
+// }
 //
 // returns {
 //   "level": int,
 //   "exp": int,
 //   "progress": int, // [=====---]
-//   "needed": int      // [-----===]
+//   "needed": int    // [-----===]
 // }
 var get_level_data = function(data) {
 	// debug
 	// console.log("Getting level data...");
 	// console.log(data);
 
+	// TODO(mbforbes): Just use a _ function?
 	// calculate total exp
 	var exp = 0, i = 0;
 	for (i = 0; i < data.past_progress.length; i++) {
@@ -104,6 +111,12 @@ var get_level_data = function(data) {
 
 	// debug
 	// console.log('\t- got total exp (' + exp + ')');
+
+	// TODO(mbforbes): Refacor the following to:
+	// - get the alevel (or just do that first) and the amount of experience for
+	//   each. Due to bosses, the exp for a level may be capped (e.g. at the
+	//   point before fighting the boss; after fighting the boss, the exp would
+	//   then jump).
 
 	// Given our exp rules are:
 	// - baseline: 180 exp needed every level
@@ -197,6 +210,10 @@ var get_ability_data = function(data) {
 		// debug
 		// console.log('\t\t- got total ability exp (' + exp + ')');
 
+		// TODO(mbforbes): Make the following:
+		//  - just solve a quadratic. Middle school math. Have separate fn.
+		//  - simply cap at a boss if not beaten.
+
 		// do the dumb for loop to solve the quadratic for y val
 		// a.k.a. caclulate ability level, progress, remaining
 		var bosses_todo = get_bosses_todo(ability);
@@ -266,10 +283,12 @@ get_alvl_block = function(alvl) {
 	} else if (alvl < 100) {
 		return 5;
 	} else {
+		// >= 100
 		return 6;
 	}
 };
 
+// Takes the block number b (coarse-grained level indicator), 1 <= b <= 6.
 // Returns one of 'beginner', 'novice', 'apprentice', 'journeyman',
 // 'expert', or 'master'
 //
@@ -290,6 +309,7 @@ var get_alvl_str = function(block_number) {
 	]
 	// safety
 	if (block_number < 0 || block_number >= blocks.length) {
+		// TODO(mbforbes): Warn here. How to collect / view on Heroku?
 		block_number = 0;
 	}
 	return blocks[block_number]
@@ -299,7 +319,7 @@ var get_alvl_str = function(block_number) {
 //
 // Returns a list of all bosses that:
 //
-// TODO: CURSPOT augment boss entries with associated ability
+// TODO: Augment boss entries with associated ability
 //
 // - have not been done yet
 // - are within 5 levels of the current ability level
