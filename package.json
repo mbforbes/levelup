@@ -2,17 +2,18 @@
   "name": "levelup",
   "version": "0.0.0",
   "dependencies": {
+    "async": "*",
+    "body-parser": "*",
     "colors": "*",
     "express": "*",
-    "body-parser": "*",
     "express-session": "*",
     "jade": "*",
-    "underscore": "*",
-    "request": "*",
+    "mongoose": "*",
     "passport": "*",
     "passport-google": "*",
     "pg": "*",
-    "async": "*"
+    "request": "*",
+    "underscore": "*"
   },
   "description": "Track minutes, gain experience for skills and levels, fight bosses, get rewards.",
   "main": "web.js",

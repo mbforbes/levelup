@@ -1,14 +1,20 @@
+//- ability
+//-   .display_name (TODO -> name)
+//-   .level        (computed (ability level))
+//-   .tag          (computed (beginner, journeyman, expert, etc.))
+//-   .needed       (computed (exp needed till next ability level))
+
 .row
-	// Col cur level
+	//- Col cur level
 	.col-xs-9.col-md-10
-		// Inline row: top row text
+		//- Inline row: top row text
 		.row.toptext
 			.col-xs-8.left
 				= ability.display_name
 			.col-xs-4.right
 				| level&nbsp;
 				= ability.level
-		// Inline row: 6 blocks to denote level class
+		//- Inline row: 6 blocks to denote level class
 		.row
 			each b in [0, 1, 2, 3, 4, 5]
 				if b == 0
@@ -21,7 +27,7 @@
 					.col-xs-2.bcol
 						include block
 
-		// Inline row: bottom row text
+		//- Inline row: bottom row text
 		.row.bottomtext
 			.col-xs-6.left
 				= ability.tag
@@ -29,6 +35,6 @@
 				= ability.needed
 				| &nbsp;&rarr;
 
-	// Col exp to next level
+	//- Col exp to next level
 	.col-xs-3.col-md-2.donut
 		.donutchart

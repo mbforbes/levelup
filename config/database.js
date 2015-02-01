@@ -3,7 +3,7 @@ module.exports = {
 	// url: process.env.DATABASE_URL
 
 	// Use this for development (old Macbook pro)
-	'url': 'postgres://ludev1:1234@localhost:5432/ludb1'
+	'url': 'postgres://ludev1:1234@localhost:5432/ludb1',
 
 	// Use this for development (retina)
 	'url': 'postgres://TODO'
