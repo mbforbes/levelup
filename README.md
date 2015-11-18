@@ -1,10 +1,34 @@
 # levelup
-Track minutes, gain experience for skills and levels, fight bosses, get rewards. [Live alpha](http://rhubarb-crisp-2752.herokuapp.com/).
 
-![preview of the levelup UI](levelup_ui.png)
-_A mockup of the UI I made (in Word!)_
+Track minutes, gain experience for skills and levels, fight bosses, get
+rewards. [Live alpha](http://rhubarb-crisp-2752.herokuapp.com/).
+
+![preview of the levelup UI, v2](ui-v2.png)
+
 
 ## Development plan
+
+Make a small, working app, without abilities or player levels or bosses or
+rewards. **Skills only.** Try hosting locally as well as on Heroku, essentially
+ensuring that databases locally and on heroku can be exported and used in one
+another.
+
+- [ ] Login & logout
+	- [ ] Passport still, or better alternative?
+	- [ ] Build
+- [ ] Player and skill models
+	- [ ] Update ORM charts
+	- [ ] Pick ORM
+	- [ ] Refresher or tutorial on ORM
+- [ ] Skill views for list, add, and edit
+	- [ ] Use something like backbone, or light enough?
+	- [ ] Use scotch tutorial, or go solo?
+	- [ ] Build, ensuring super good to use on mobile
+- [ ] Favicon
+- [ ] Test DB backup/restore/run on heroku
+- [ ] Run locally
+
+## Old Development plan
 
 ### 1. Switch current models over to MongoDB + Mongoose
 - [X] Make sure this is the right way to do a list of check boxes.
@@ -38,6 +62,11 @@ _A mockup of the UI I made (in Word!)_
 You need two files, which are both one-liner filess with URLs to an **old** Google Docs Spreadsheet with certain data format.
 - `exp_url` :   exp format (specified in web.js)
 - `abilities_url` : abilities format (specified in web.js)
+
+## Deprecated: UI
+
+![preview of the levelup UI, v1 (old)](ui-v1.png)
+_A mockup of the UI I made (in Word!)_
 
 ## Related work
 After having done my brainstorming, background research on why games are addicting, needs analysis, level math and balancing, mockups, and most of the backend / frontend coding, I then discovered [HabitRPG](https://habitrpg.com/).
