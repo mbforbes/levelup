@@ -6,7 +6,13 @@ rewards. [Live alpha](http://rhubarb-crisp-2752.herokuapp.com/).
 ![preview of the levelup UI, v2](ui-v2.png)
 
 
-## Development plan
+## Development plan [1/7/16]
+
+-	**Meteor** (do tutorial first)
+-	Heroku
+-	Simple: skills (minutes) only
+
+## Old development plan
 
 Make a small, working app, without abilities or player levels or bosses or
 rewards. **Skills only.** Try hosting locally as well as on Heroku, essentially
@@ -28,7 +34,7 @@ another.
 - [ ] Test DB backup/restore/run on heroku
 - [ ] Run locally
 
-## Old Development plan
+## Old old Development plan
 
 ### 1. Switch current models over to MongoDB + Mongoose
 - [X] Make sure this is the right way to do a list of check boxes.
@@ -123,4 +129,3 @@ Library | Info | Popularity
 [node-orm](https://github.com/dresende/node-orm2) | ORM for PSQL, MySQL, SQLite, mongoDB | 1115
 [Waterline](https://github.com/balderdashy/waterline) | "Uniform API for accessing databases, protocols, APIs...Strives to inherit the best parts of ORMs like ActiveRecord, Hibernate, and Mongoose." | 1037
 [CaminteJS](https://github.com/biggora/caminte) | ORM for PSQL, MySQL, SQLite, couchDB, mongoDB, redis, ... | 223
-
