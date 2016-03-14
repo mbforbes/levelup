@@ -5,6 +5,12 @@ rewards. [Live alpha](http://rhubarb-crisp-2752.herokuapp.com/).
 
 ![preview of the levelup UI, v2](ui-v2.png)
 
+## Dev notes
+
+React
+
+-	https://camjackson.net/post/9-things-every-reactjs-beginner-should-know
+
 
 ## Development plan [1/7/16]
 
