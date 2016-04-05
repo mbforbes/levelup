@@ -1,7 +1,30 @@
+## js
+
+Holy cow there's a lot of JS stuff out there. Here's a running brain dump.
+
+-	[react](https://facebook.github.io/react/) --- a UI lib; the V in MVC.
+-	Handles the "structure" of the V and gets data there; doesn't do styling
+-	(that's still CSS's domain and libs like Bootstrap)
+
+-	[flow](http://flowtype.org/) --- js static type checking
+
+-	[jsx](https://facebook.github.io/jsx/) --- xml-like syntax extension to
+	js; lets you write HTML in your js.
+
+-	[babel](https://babeljs.io/) --- js syntactic sugar (e.g. compressed
+	functional notation, class/method/var shortcuts, annotations, ...),
+	including JSX compiling and stripping out type annotations (e.g. Flow)
+
+
+## words web hipsters love
+
+-	inject
+-	compile
+
+
 ## React
 
 -	https://camjackson.net/post/9-things-every-reactjs-beginner-should-know
-
 
 
 ## Node ORMs

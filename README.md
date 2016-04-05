@@ -9,6 +9,9 @@ rewards. [Live alpha](http://rhubarb-crisp-2752.herokuapp.com/).
 ## Development plan [4/5/16]
 
 -	[ ] **React tutorial(s)**
+
+	curspot: [Composing components](https://facebook.github.io/react/docs/tutorial.html#composing-components)
+
 -	[ ] Meteor tutorial(s)
 -	[ ] Simple version w/ Meteor: skills (minutes) only
 -	[ ] D/B import/export
