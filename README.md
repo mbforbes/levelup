@@ -10,7 +10,7 @@ rewards. [Live alpha](http://rhubarb-crisp-2752.herokuapp.com/).
 
 -	[ ] **React tutorial(s)**
 
-	curspot: [Composing components](https://facebook.github.io/react/docs/tutorial.html#composing-components)
+	curspot: [Adding new comments](https://facebook.github.io/react/docs/tutorial.html#adding-new-comments)
 
 -	[ ] Meteor tutorial(s)
 -	[ ] Simple version w/ Meteor: skills (minutes) only

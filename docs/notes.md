@@ -3,8 +3,8 @@
 Holy cow there's a lot of JS stuff out there. Here's a running brain dump.
 
 -	[react](https://facebook.github.io/react/) --- a UI lib; the V in MVC.
--	Handles the "structure" of the V and gets data there; doesn't do styling
--	(that's still CSS's domain and libs like Bootstrap)
+	Handles the "structure" of the V and gets data there; doesn't do styling
+	(that's still CSS's domain and libs like Bootstrap)
 
 -	[flow](http://flowtype.org/) --- js static type checking
 
@@ -20,9 +20,21 @@ Holy cow there's a lot of JS stuff out there. Here's a running brain dump.
 
 -	inject
 -	compile
+-	render
 
 
 ## React
+
+here's the order of things that happen to a React component:
+
+1.	`getInitialState` &larr; (auto) called to get initial state
+2.	`render` &larr; (auto) called to dump HTML or shadow DOM or whatever
+3.	`componentDidMount` &larr; (auto) called after first rendered
+4.	then as much as you want:
+	1.	`setState` &larr; call to set state
+	2.	`render` &larr; (auto) called
+
+resources:
 
 -	https://camjackson.net/post/9-things-every-reactjs-beginner-should-know
 
