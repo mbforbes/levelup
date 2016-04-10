@@ -5,6 +5,7 @@
 0.	&check; [9 things every React.js beginner should know](https://camjackson.net/post/9-things-every-reactjs-beginner-should-know)
 0.	&check; [(video) Dan Abramov - Live React: Hot Reloading with Time Travel](https://www.youtube.com/watch?v=xsSnOQynTHs)
 
+
 ## js
 
 Holy cow there's a lot of JS stuff out there. Here's a running brain dump.
@@ -63,7 +64,7 @@ Holy cow there's a lot of JS stuff out there. Here's a running brain dump.
 
 -	[require.js](http://requirejs.org/) --- a js file and module loader. Uses
 	the AMD API for js modules. This is in contrast to Node's builtin module
-	format (CommonJS) and loader (part of Node). This says CommonJS is
+	format (CommonJS) and loader (part of Node). They say CommonJS is
 	non-optimal for the browser (and presumably AMD is).
 
 -	[reselect](https://github.com/reactjs/reselect) --- Redux library:
@@ -74,13 +75,14 @@ Holy cow there's a lot of JS stuff out there. Here's a running brain dump.
 -	[webpack](https://github.com/webpack/webpack) --- bundles js modules.
 	"Webpack takes modules with dependencies and generates static assets
 	representing those modules." Splits dependency tree into chunks so initial
-	loading time is low and chunks can be loaded on demand. (Note: remember
-	Gmail had an equivalent thing.) Can use CommonJS or AMD.
+	loading time is low and chunks can be loaded on demand. Can use CommonJS
+	or AMD.
 
 -	[yeoman](http://yeoman.io/) --- scaffold (boilerplate) generator, works
 	for many projects (e.g. Angular, Backbone, React, Polymer). Also writes
 	your build files (e.g. in Grunt or Gulp) and package manager dependencies
 	(e.g. in Bower or npm)
+
 
 ## words web hipsters love
 
@@ -182,10 +184,6 @@ webpack as needed.
 
 -	`ReactLink` --- "make (the react one-way data flow pattern) as convenient
 	as two-way data binding"
-
-### resources
-
--	https://camjackson.net/post/9-things-every-reactjs-beginner-should-know
 
 
 ## Node ORMs
