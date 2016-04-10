@@ -2,24 +2,85 @@
 
 0.	&check; [React Tutorial](https://facebook.github.io/react/docs/tutorial.html)
 0.	&check; [Thinking in React](https://facebook.github.io/react/docs/thinking-in-react.html)
+0.	&check; [9 things every React.js beginner should know](https://camjackson.net/post/9-things-every-reactjs-beginner-should-know)
+0.	&check; [(video) Dan Abramov - Live React: Hot Reloading with Time Travel](https://www.youtube.com/watch?v=xsSnOQynTHs)
 
 ## js
 
 Holy cow there's a lot of JS stuff out there. Here's a running brain dump.
 
--	[react](https://facebook.github.io/react/) --- a UI lib; the V in MVC.
-	Handles the "structure" of the V and gets data there; doesn't do styling
-	(that's still CSS's domain and libs like Bootstrap)
+-	[AMD](https://github.com/amdjs/amdjs-api/blob/master/AMD.md) ---
+	Asynchronous Module Definition, the API that require.js uses. It's
+	specifies how to "define modules such that the module and its dependencies
+	can be asynchronously loaded." Contrast to CommonJS (Node's equivalent).
+	Require.js defends AMD: http://requirejs.org/docs/whyamd.html.
+
+-	[babel](https://babeljs.io/) --- js "transpiler;" get es6 support by
+	compiling down to es5. It also does JSX compiling and strips out Flow type
+	annotations.
+
+-	[bower](http://bower.io/) --- frontend package manager using flat
+	dependency graph to prioritize small installs.
+
+-	[elm](http://elm-lang.org/) --- functional programming language for
+	declaratively creating web GUIs. Uses "functional reactive" programming
+	style.
+
+-	[es6](http://git.io/es6features) --- next version of JavaScript spec.
+	Seems exciting. Here's another comparison website:
+	http://es6-features.org/. This might be better for learning:
+	https://babeljs.io/docs/learn-es2015/.
 
 -	[flow](http://flowtype.org/) --- js static type checking
+
+-	[flux](https://facebook.github.io/flux/) --- UI architecture (not a code
+	framework). Idea you should have one-way data flow from a dispatcher
+	(handles actions), to the One True State, to rendering views. React
+	implements the views part.
+
+-	[grunt](http://gruntjs.com/) --- task runner. You might want it to do:
+	minification, compilation, unit testing, linting.
+
+-	[gulp](http://gulpjs.com/) --- like grunt, but seems stream and pipe-based.
+
+-	[immutable.js](https://facebook.github.io/immutable-js/) --- immutable
+	data collections for javascript.
 
 -	[jsx](https://facebook.github.io/jsx/) --- xml-like syntax extension to
 	js; lets you write HTML in your js.
 
--	[babel](https://babeljs.io/) --- js syntactic sugar (e.g. compressed
-	functional notation, class/method/var shortcuts, annotations, ...),
-	including JSX compiling and stripping out type annotations (e.g. Flow)
+-	[npm](https://www.npmjs.com/) --- node's package manager. CommonJS is its
+	module format.
 
+-	[react](https://facebook.github.io/react/) --- a UI lib; the V in MVC.
+	Handles the "structure" of the V and gets data there; doesn't do styling
+	(that's still CSS's domain and libs like Bootstrap)
+
+-	[redux.js](http://redux.js.org/) --- a state container for JS apps. Can
+	use with React (as the view). Represent app data as a store with reducer
+	functions for combining [old state] + [action] = [new state]. "Evolves
+	ideas of Flux, but avoids its complexity by taking cues from Elm."
+
+-	[require.js](http://requirejs.org/) --- a js file and module loader. Uses
+	the AMD API for js modules. This is in contrast to Node's builtin module
+	format (CommonJS) and loader (part of Node). This says CommonJS is
+	non-optimal for the browser (and presumably AMD is).
+
+-	[reselect](https://github.com/reactjs/reselect) --- Redux library:
+	"composable, lazy-evaluated views onto your state." Examples: inject only
+	part of the global state tree; inject bits of derived data without putting
+	it in the store.
+
+-	[webpack](https://github.com/webpack/webpack) --- bundles js modules.
+	"Webpack takes modules with dependencies and generates static assets
+	representing those modules." Splits dependency tree into chunks so initial
+	loading time is low and chunks can be loaded on demand. (Note: remember
+	Gmail had an equivalent thing.) Can use CommonJS or AMD.
+
+-	[yeoman](http://yeoman.io/) --- scaffold (boilerplate) generator, works
+	for many projects (e.g. Angular, Backbone, React, Polymer). Also writes
+	your build files (e.g. in Grunt or Gulp) and package manager dependencies
+	(e.g. in Bower or npm)
 
 ## words web hipsters love
 
@@ -85,6 +146,37 @@ component, which renders the text. So typing in the text box doesn't actually
 change it directly! You can see this by having the text box render the state
 but not implementing any listeners; the text box won't change when you type in
 it.
+
+### 9 things every React.js beginner should know
+
+1.	React is just a V in MVC.
+2.	Keep components small (e.g. just a couple `<div>`s).
+3.	Write functional components (seems like a personal preference; can't have
+	state, different syntax).
+4.	Write stateless components (this seems trivial from the tutorial).
+5.	Use Redux.js (and a crap ton of other libraries he likes: immutable,
+	react-thunk, reselect).
+6.	Use `propTypes`, which do dynamic type checking.
+7.	Use shallow rendering (for testing).
+8.	Use JSX, ES6, Babel, Webpack, and NPM (I added entries above for all).
+9.	Use the React and Redux dev tools.
+
+### (video) Dan Abramov - Live React: Hot Reloading with Time Travel
+
+Redux = "reduce" + "flux". It turns a store into a set of reducer functions
+which take a previous state and an action and return a new state. It's
+abstracted the notion of a store from objects that hold data and return them
+into just functions. The framework keeps track of the actual state, calling the
+reduce functions, saving the new state, diff'ing the states (states should be
+immutable), and calling updates (e.g. `render()`) when needed.
+
+He also shows some pretty cool Redux tooling (Redux DevTools) that lets you
+snapshot and replay changes to your state (reduces).
+
+He also shows React HotLoader, which does real-time updates to react views
+without having to muck with component creation and deletion. It does this by
+proxying out the functions on a React component and then swapping in code with
+webpack as needed.
 
 ### React plugins
 
