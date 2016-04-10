@@ -1,3 +1,8 @@
+## tutorial list
+
+0.	&check; [React Tutorial](https://facebook.github.io/react/docs/tutorial.html)
+0.	&check; [Thinking in React](https://facebook.github.io/react/docs/thinking-in-react.html)
+
 ## js
 
 Holy cow there's a lot of JS stuff out there. Here's a running brain dump.
@@ -25,6 +30,8 @@ Holy cow there's a lot of JS stuff out there. Here's a running brain dump.
 
 ## React
 
+### React Tutorial
+
 here's the order of things that happen to a React component:
 
 1.	`getInitialState` &larr; (auto) called to get initial state
@@ -34,7 +41,57 @@ here's the order of things that happen to a React component:
 	1.	`setState` &larr; call to set state
 	2.	`render` &larr; (auto) called
 
-resources:
+### Thinking in React
+
+Here's how to build a website using react:
+
+0.	**Mock** --- make a mock
+
+0.	**Data** --- make JSON data that contains data that fills the mock
+
+0.	**Component hierarchy** --- break mock UI into hierarchical components
+
+0.	**Static React** --- build a static version in React. Think of it like
+	this: `[data] --[component hierarchy]--> [mock]`. Use _props_, not
+	_state_.
+
+0.	**State: what** --- identify minimal state for UI. It should (a) not be
+	passed from a parent via props, (b) should change over time, (c) not be
+	computable from other state and props.
+
+0.	**State: where** --- identify where state should live. It should flow down
+	the component hierarchy into components' props that can be rendered. So,
+	look at all components that use a piece of state _s_, and find the lowest
+	common parent (or create one). It should live here or higher.
+
+0.	**State: hook it up** --- add listeners to bind UI input at the bottom of
+	the component hierarchy to state at the top of the component hierarchy.
+	Changes will then cascade down the component hierarchy as props being
+	rendered.
+
+Woah, _props v state_?
+
+-	**props** --- don't change; are static.
+-	**state** --- changes; is dynamic.
+
+Yes, the example at least really seems to use them: changing things use
+_state_, then set the _props_ on sub-things that render themselves; then, the
+sub-things think only about their _props_. Cool.
+
+One-way data flow? Yes, React has one-way data flow _down_ the component
+hierarchy. This is interesting: typing in a text box updates the top-level
+state, which flows down into the components until it reaches the text box
+component, which renders the text. So typing in the text box doesn't actually
+change it directly! You can see this by having the text box render the state
+but not implementing any listeners; the text box won't change when you type in
+it.
+
+### React plugins
+
+-	`ReactLink` --- "make (the react one-way data flow pattern) as convenient
+	as two-way data binding"
+
+### resources
 
 -	https://camjackson.net/post/9-things-every-reactjs-beginner-should-know
 
