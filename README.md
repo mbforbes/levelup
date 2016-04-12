@@ -6,19 +6,6 @@ rewards. [Live alpha](http://rhubarb-crisp-2752.herokuapp.com/).
 ![preview of the levelup UI, v2](ui-v2.png)
 
 
-## Development plan [4/5/16]
-
--	[ ] **React tutorial(s)**
-
-	curspot: [Adding new comments](https://facebook.github.io/react/docs/tutorial.html#adding-new-comments)
-
--	[ ] Meteor tutorial(s)
--	[ ] Simple version w/ Meteor: skills (minutes) only
--	[ ] D/B import/export
--	[ ] Setup on Heroku
--	[ ] Heroku D/B import/export
-
-
 ## Related work
 
 After having done my brainstorming, background research on why games are
