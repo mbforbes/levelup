@@ -41,3 +41,4 @@ app.set('views', views_dir);
 
 // swerve
 app.listen(8000);
+console.log("Listening on " + 8000);

@@ -32,10 +32,10 @@ Holy cow there's a lot of JS stuff out there. Here's a running brain dump.
 	http://es6-features.org/. This might be better for learning:
 	https://babeljs.io/docs/learn-es2015/.
 
--	[flow](http://flowtype.org/) --- js static type checking
+-	[flow](http://flowtype.org/) --- FB's js static type checker
 
--	[flux](https://facebook.github.io/flux/) --- UI architecture (not a code
-	framework). Idea you should have one-way data flow from a dispatcher
+-	[flux](https://facebook.github.io/flux/) --- FB's UI architecture (not a
+	code framework). Idea you should have one-way data flow from a dispatcher
 	(handles actions), to the One True State, to rendering views. React
 	implements the views part.
 
@@ -44,8 +44,11 @@ Holy cow there's a lot of JS stuff out there. Here's a running brain dump.
 
 -	[gulp](http://gulpjs.com/) --- like grunt, but seems stream and pipe-based.
 
--	[immutable.js](https://facebook.github.io/immutable-js/) --- immutable
-	data collections for javascript.
+-	[immutable.js](https://facebook.github.io/immutable-js/) --- FB's
+	immutable data collections for javascript.
+
+-	[jest](https://facebook.github.io/jest/) --- FB's javascript unit testing
+	library.
 
 -	[jsx](https://facebook.github.io/jsx/) --- xml-like syntax extension to
 	js; lets you write HTML in your js.
@@ -53,7 +56,7 @@ Holy cow there's a lot of JS stuff out there. Here's a running brain dump.
 -	[npm](https://www.npmjs.com/) --- node's package manager. CommonJS is its
 	module format.
 
--	[react](https://facebook.github.io/react/) --- a UI lib; the V in MVC.
+-	[react](https://facebook.github.io/react/) --- FB's UI lib; the V in MVC.
 	Handles the "structure" of the V and gets data there; doesn't do styling
 	(that's still CSS's domain and libs like Bootstrap)
 
